@@ -1,55 +1,8 @@
 // permet de créer une matrice de taille : taille1*taille2 et de la remplir avec //la fonction prompt
+/*
 
-function creer_matrice(taille1,taille2) {
+ */
 
-    var matrice= new Array();
-
-    for (var i=0; i<taille1; i++) {
-        for (var j=0; j<taille2; j++) {
-            if (!matrice[i]) matrice[i] = new Array();
-            var case_courante = prompt('Valeur de la case : ' + i + '|' + j);
-            matrice[i][j] = case_courante;
-        }
-    }
-    return matrice;
-}
-function creer_vecteur(taille)
-{
-    var vecteur=new Array();
-    for(var i=0;i<taille;i++)
-    {
-        vecteur[i] = prompt('Valeur de la case : ' + i);
-
-    }
-    return vecteur;
-}
-// permet d'afficher un vecteur
-function voir_vecteur(vecteur)
-{
-    var chaine ="";
-    for(var i=0;i<vecteur.length;i++)
-    {
-        chaine=chaine+"                   "+vecteur[i];
-    }
-    alert(chaine);
-}
-// permet d'afficher une matrice
-function voir_matrice(matrice,taille1,taille2)
-{
-    var chaine="";
-    for(var i=0;i<taille1;i++)
-    {
-        for(var j=0;j<taille2;j++)
-        {
-
-            chaine=chaine+"           "+matrice[i][j]+" ";
-
-        }
-        chaine=chaine+"\n";
-    }
-
-    alert(chaine);
-}
 function Substract_vector(vec1,vec2)
 {
     var vec_final= new Array();
@@ -317,12 +270,12 @@ function transp_matrice(matrice,dim1,dim2) {
 }
 
 /*A la fin de l'algorithme il faut calculer la variation de c pour pouvoir le modifier afin qu'il converge vers le c réel*/
-function calc_deltaC(jacobian_s,diagc,diff_conc,dim)
+function calc_deltaC(jacobian_s,diagc,diff_conc)
 {
     var delta_c=0;
     var jacobian_invert= inverse_matrice(jacobian_s);
     var jacobian_diagc_invert =multi_matrice(jacobian_invert,diagc,3,3);
-    var deltac= multiplication_matricielle(diff_conc,jacobian_diagc_invert,1,3,3);
+    delta_c= multiplication_matricielle(diff_conc,jacobian_diagc_invert,1,3,3);
 
     return delta_c;
     // matrice ayant comme diagonal les concentration des espèces, sa mulitplication avec le jacobian_star inverse et la différence entre X_total et X_tot_calc permet davoir le jacobian.
@@ -343,8 +296,8 @@ function NewtonRaphton_algorithme(Total_exact_concentration,Guess_concentration,
 {
     iteration++;
     //console.log(iteration);
-
     var diff_accepte=0.00001;
+    
     var matrice_conc_guess=row_to_matrice(Guess_concentration,list_species.length,list_component.length);
     //voir_matrice(matrice_conc_guess,list_species.length,list_component.length);
     var matrice_model_guess= puissance_matrice(matrice_conc_guess,model,list_species.length,list_component.length);
@@ -678,7 +631,8 @@ function algo_spider_web(Total_exact_concentration,vector_Guess_accept,list_comp
     }
     return -1;
 }
-
+creer_matrice(3,4);
+/*
 //essai des fonctions
 //console.log(Math.pow(0,3));
 
@@ -707,7 +661,11 @@ while(summ2==-1)
 
 }
 console.log(summ2);
-/*
+
+
+
+
+
  for(var i=0;i<1;i++)
  {
 
