@@ -1,0 +1,30 @@
+{
+  "name": "equilibrium2",
+  "version": "0.0.1",
+  "description": "software that calcul the concentrations of species into a solution",
+  "main": "src/equilibrium.js",
+  "dependencies": {
+    "ml": "^0.8.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "should": "^8.3.1"
+  },
+  "scripts": {
+    "test": "mocha --require should --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheminfo-js/equilibrium2.git"
+  },
+  "keywords": [
+    "chemistry",
+    "simulation"
+  ],
+  "author": "Strauch (loic.strauch@epfl.ch)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cheminfo-js/equilibrium2/issues"
+  },
+  "homepage": "https://github.com/cheminfo-js/equilibrium2#readme"
+}
