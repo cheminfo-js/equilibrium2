@@ -1,6 +1,7 @@
 'use strict';
 
 const Matrix = require('../src/Matrix');
+const Matrixlm = require("ml").Matrix;
 
 /**
  * Created by loicstrauch on 14.04.16.
@@ -25,198 +26,102 @@ var vector7=[2,15,12];
 var vector8=[3,4,6];
 var vector9=[3,7,6];
 var vector10=[2,4,6];
+var vector11=[1,2,3];
+var vector12=[15,1];
 
 describe('Matrix', function () {
     it('Substract vector', function () {
-        var a=0;
-        var sub = Matrix.SubstractVector(vector1,vector2);
+        var sub = Matrix.SubstractVector(vector1, vector2);
         sub.should.deepEqual(vector3);
     });
-});
+    it('Multiplication vector', function () {
+        var multi = Matrix.multiVector(vector1, vector2);
+        multi.should.deepEqual(vector4);
+    });
+    it('multiplication Matrix', function () {
+        var multiMat = Matrix.multiMatrix(Matrix1,Matrix2,3,3);
+        multiMat.should.deepEqual(Matrix3);
+    });
+    it('Pow Matrix', function () {
+        var powMat = Matrix.powMatrix(Matrix1,Matrix2,3,3);
+        powMat.should.deepEqual(Matrix4);
+    });
+    it('Row to Matrix', function () {
+        var rowToMat = Matrix.rowToMatrix(vector1,3);
+        rowToMat.should.deepEqual(Matrix5);
+    });
+    it('Matrix to Row', function () {
+        var matToRow = Matrix.matrixToRow(Matrix1,3,3);
+        matToRow.should.deepEqual(vector5);
+    });
+    it('Extract row', function () {
+        var multiMat = Matrix.multiMatrix(Matrix1,Matrix2,3,3);
+        multiMat.should.deepEqual(Matrix3);
+    });
+    it('Diag Matrix', function () {
+        var Mat= new Matrixlm(3,3);
+        Mat = Matrix.diagonalMatrix(vector1);
+        var arrayMatdiag = Mat.to2DArray();
+        arrayMatdiag.should.deepEqual(Matrix6);
+    });
+    it('Extract SubMatrix', function () {
+        var subMat = Matrix.extractSubmatrix(Matrix1,3,1,1);
+        subMat.should.deepEqual(Matrix7);
+    });
+    it('Summ Vector', function () {
+        var summVector = Matrix.sumVector(vector1);
+        summVector.should.deepEqual(6);
+    });
+    it('Transpose Matrix', function () {
+        var transpMat = Matrix.transposeMatrix(Matrix1,3,3);
+        transpMat.should.deepEqual(Matrix8);
+    });
+    it('Multiplication Matricielle', function () {
+        var multiMat = Matrix.multiplicationMatrix(Matrix1,Matrix2,3,3,3);
+        multiMat.should.deepEqual(Matrix9);
+    });
+    it('Multi Vector To Matrix', function () {
+        var vec = Matrix.multiVectorToMatrix(vector1,Matrix1,3);
+        vec.should.deepEqual(vector7);
+    });
+    it('Summ Row Matrix', function () {
+        var sum = Matrix.sumRowMatrix(Matrix1,3,3);
+        sum.should.deepEqual(vector8);
+    });
+    it('Summ Vectors', function () {
+        var sumVectors = Matrix.sumVectors(vector1,vector2);
+        sumVectors.should.deepEqual(vector9);
+    });
+    it('Test component Negative', function () {
+        var test1=Matrix.testComponentNeg(vector6);
+        var test2=Matrix.testComponentNeg(vector7);
+        test1.should.deepEqual(true);
+        test2.should.deepEqual(false);
+    });
+    it('Multiplication Scalar to Vector', function () {
+        var multi = Matrix.multiplyScalarVector(2,vector1);
+        multi.should.deepEqual(vector10);
+    });
+    it('determinant Matrix', function () {
+        var det = Matrix.detMatrix(Matrix1,3);
+        det.should.deepEqual(5);
+    });
+    it('Distance Vector', function () {
+        var distance = Matrix.distanceVectors(vector1,vector2);
+        distance.should.deepEqual(Math.sqrt(10));
+    });
+    it('absolute Vector', function () {
+        var abs = Matrix.absVector(vector6);
+        abs.should.deepEqual(vector11);
+    });
+    it('Max Coordonnee', function () {
+        var max = Matrix.coordonneeMax(vector7);
+        max.should.deepEqual(vector12);
+    });
 
-// a=0;
-//
-// for(var i=0;i<vector1.length;i++)
-// {
-//     if(Matrix.multiVector(vector1,vector2)[i]==vector4[i])a++;
-// }
-// if(a==3)console.log("multiVector = OK");
-// else console.log("multiVector = WARNING");
-// a=0;
-//
-//
-// for(var i=0;i<3;i++)
-// {
-//     for(var j=0;j<3;j++)
-//     {
-//         if(Matrix.multiMatrix(Matrix1,Matrix2,3,3)[i][j]==Matrix3[i][j])a++;
-//
-//     }
-// }
-// if(a==9)console.log("multiMatrix = OK");
-// else console.log("multiMatrix= WARNING");
-// a=0;
-//
-// for(var i=0;i<3;i++)
-// {
-//     for(var j=0;j<3;j++)
-//     {
-//         if(Matrix.powMatrix(Matrix1,Matrix2,3,3)[i][j]==Matrix4[i][j])a++;
-//
-//     }
-// }
-// if(a==9)console.log("powMatrix = OK");
-// else console.log("powMatrix= WARNING");
-// a=0;
-//
-// for(var i=0;i<3;i++)
-// {
-//     for(var j=0;j<3;j++)
-//     {
-//         if(Matrix.rowToMatrix(vector1,3)[i][j]==Matrix5[i][j])a++;
-//     }
-// }
-// if(a==9)console.log("rowToMatrix = OK");
-// else console.log("rowToMatrix= WARNING");
-// a=0;
-//
-// for(var i=0;i<vector5.length;i++)
-// {
-//     if(Matrix.matrixToRow(Matrix1,3,3)[i]==vector5[i])a++;
-// }
-// if(a==3)console.log("matrixToRow = OK");
-// else console.log("matrixToRow = WARNING");
-// a=0;
-//
-// for(var i=0;i<vector6.length;i++)
-// {
-//     if(Matrix.extractRow(Matrix1,1,3)[i]==vector6[i])a++;
-// }
-// if(a==3)console.log("matrixToRow = OK");
-// else console.log("matrixToRow = WARNING");
-// a=0;
-//
-// var Matdiag= Matrix.diagMatrix(vector1);
-// var arrayMatdiag = Matdiag.to2DArray();
-//
-// for(var i=0;i<3;i++)
-// {
-//     for(var j=0;j<3;j++)
-//     {
-//         if(arrayMatdiag[i][j]==Matrix6[i][j])a++;
-//     }
-// }
-// if(a==9)console.log("diagMatrix = OK");
-// else console.log("diagMatrix= WARNING");
-// a=0;
-//
-// for(var i=0;i<2;i++)
-// {
-//     for(var j=0;j<2;j++)
-//     {
-//         if(Matrix.extractSubmatrix(Matrix1,3,1,1)[i][j]==Matrix7[i][j])a++;
-//     }
-// }
-// if(a==4)console.log("extractSubmatrix = OK");
-// else console.log("extractSubmatrix= WARNING");
-// a=0;
-//
-//
-// if(Matrix.sumVector(vector1)==6) console.log("sumVector = OK");
-// else console.log("sumVector = WARNING");
-// a=0;
-//
-// for(var i=0;i<3;i++)
-// {
-//     for(var j=0;j<3;j++)
-//     {
-//         if(Matrix.transpMatrix(Matrix1,3,3)[i][j]==Matrix8[i][j])a++;
-//     }
-// }
-// if(a==9)console.log("transpMatrix = OK");
-// else console.log("transMatrix WARNING");
-// a=0;
-//
-// for(var i=0;i<3;i++)
-// {
-//     for(var j=0;j<3;j++)
-//     {
-//         if(Matrix.multiplicationMatrix(Matrix1,Matrix2,3,3,3)[i][j]==Matrix9[i][j])a++;
-//
-//     }
-// }
-// if(a==9)console.log("multiplicationMatrix = OK");
-// else console.log("multiplicationMatrix WARNING");
-// a=0;
-//
-//
-// for(var i=0;i<vector6.length;i++)
-// {
-//     if(Matrix.multiVectorToMatrix(vector1,Matrix1,3)[i]==vector7[i])a++;
-// }
-// if(a==3)console.log("multiVectorToMatrix = OK");
-// else console.log("multiVectorToMatrix = WARNING");
-// a=0;
-//
-// for(var i=0;i<vector6.length;i++)
-// {
-//     if(Matrix.sumRowMatrix(Matrix1,3,3)[i]==vector8[i])a++;
-//
-// }
-// if(a==3)console.log("sumRowMatrix = OK");
-// else console.log("sumRowMatrix = WARNING");
-// a=0;
-//
-// for(var i=0;i<vector6.length;i++)
-// {
-//     if(Matrix.sumVectors(vector1,vector2)[i]==vector9[i])a++;
-//
-// }
-// if(a==3)console.log("sumVectors = OK");
-// else console.log("sumVectors = WARNING");
-//
-// a=0;
-//
-// if(Matrix.testComponentNeg(vector6)==1 &&Matrix.testComponentNeg(vector7)==0)console.log("testcomponentNeg = OK");
-// else console.log("testcomponentNeg = WARNING");
-//
-// for(var i=0;i<vector10.length;i++)
-// {
-//     if(Matrix.multiplyScalarVector(2,vector1)[i]==vector10[i])a++;
-//
-//
-// }
-// if(a==3)console.log("multiplyScalarVector = OK");
-// else console.log("multiplyScalarVector = WARNING");
-//
-// if(Matrix.detMatrix(Matrix1,3)==5)console.log("detMatrix = OK");
-// else console.log("detMatrix = WARNING");
-//
-// a=0;
-// var inverseMatrice = Matrix.inverseMatrix(Matrix1,3);
-//
-// var multi=Matrix.multiplicationMatrix(Matrix1,inverseMatrice,3,3,3);
-// console.log(multi);
-// for(var i=0;i<3;i++)
-// {
-//     for(var j=0;j<3;j++)
-//     {
-//         if(i==j && multi[i][j]==1)a++;
-//         if(i!=j && multi[i][j]==0)a++;
-//
-//     }
-// }
-//
-// if(a==9)console.log("inverseMatrice = OK");
-// else console.log("inverseMatrice = WARNING");
-// a=0;
-// for(var t=0; t<3; t++)
-// {
-//     if(Matrix.distanceVectors(vector1,vector2)==Math.sqrt(10))a++;
-//     console.log(Matrix.distanceVectors(vector1,vector2));
-// }
-// if(a==1)console.log("DistanceVector = OK");
-// else console.log("DistanceVector = Warning");
-//
-//
-    
+
+
+}); 
+
+
+

@@ -2,79 +2,90 @@
 /**
  * Created by loicstrauch on 15.04.16.
  */
+
 module.exports= {
     JacobianStar: function(model, Data, VectorConcentration)
 {
-   
-    var Matrix = require("ml").Matrix;
-    var JacobianS = new Matrix(Data.listspecies.length, Data.listspecies.length);
-    for (var i = 0; i < Data.listspecies.length; i++) {
-        for (var j = 0; j < Data.listspecies.length; j++) {
-            var rowiModel = require("./Matrix.js").extractRow(model, i, Data.listComponentBeta.length);
-            var rowjModel = require("./Matrix.js").extractRow(model, j, Data.listComponentBeta.length);
-            var multiModel = require("./Matrix.js").multiVector(rowiModel, rowjModel);
-            var multiConcentration = require("./Matrix.js").multiVector(multiModel, VectorConcentration);
+    var mlMatrix=require("ml").Matrix;
+    var Matrix = require("./Matrix");
+    var numberSpecies = Data.listspecies.length;
+    var numberComponent=Data.listComponentBeta.length;
+    var jacobianStar = new mlMatrix(numberSpecies, numberSpecies);
+    for (var i = 0; i < numberSpecies; i++) {
+        for (var j = 0; j < numberSpecies; j++) {
+            var rowiModel = Matrix.extractRow(model, i, numberComponent);
+            var rowjModel = Matrix.extractRow(model, j, numberComponent);
+            var multiModel = Matrix.multiVector(rowiModel, rowjModel);
+            var multiConcentration = Matrix.multiVector(multiModel, VectorConcentration);
 
-            JacobianS.set(i, j, require("./Matrix.js").sumVector(multiConcentration));
+            jacobianStar.set(i, j, Matrix.sumVector(multiConcentration));
         }
     }
-
-    return JacobianS;
+    return jacobianStar;
 },
 
-NewTonRaphsonAlgorithme: function(model, Data, vectorConcentration,totalCalcConcentration) {
+NewTonRaphsonAlgorithme: function(model, Data, guessVector,totalCalcConcentration) {
+    console.log("Newton algorithme");
+    console.log("guess vector :"+guessVector);
+    var mlMatrix = require("ml").Matrix;
+    var Matrix= require("./Matrix");
+    var Concentration=require("./TotalConcentrationCalculation");
+    var jacobian = require("./AlgorithmeDeltaConcentration");
+    var numberSpecies= Data.listspecies.length;
+    var jacobianStar = new mlMatrix(numberSpecies,numberSpecies);
+    jacobianStar = jacobian.JacobianStar(model, Data, totalCalcConcentration);
+    var inverseJacobianStar = Matrix.inverseMatrix(jacobianStar,numberSpecies);
+    var matriceDiag = Matrix.diagonalMatrix(guessVector);
     
-    var vectorSpeciesConcentration = [];
-    for (var i = 0; i < Data.listspecies.length; i++) {
-        vectorSpeciesConcentration[i] = vectorConcentration[i];
-    }
 
-    var Matrix = require("ml").Matrix;
-    var jacobianStar = new Matrix(Data.listspecies,Data.listspecies);
-    jacobianStar = require("./AlgorithmeDeltaConcentration").JacobianStar(model, Data, vectorConcentration);
-    var inverseJacobianStar = jacobianStar.inverse();
-    var matriceDiag = require("./Matrix.js").diagMatrix(vectorSpeciesConcentration);
-    var arrayInverseJacobianStar=inverseJacobianStar.to2DArray();
-    var arraymatriceDiag = matriceDiag.to2DArray();
-    var jacobianStarDiag = require("./Matrix.js").multiplicationMatrix(arraymatriceDiag, arrayInverseJacobianStar, Data.listspecies.length, Data.listspecies.length, Data.listspecies.length);
-    var DiffCalculateReal = require("./Matrix.js").SubstractVector(Data.Totalconcentration, totalCalcConcentration);
-    var deltaConcentration = require("./Matrix.js").multiVectorToMatrix(DiffCalculateReal, jacobianStarDiag, Data.listspecies.length);
-    var NewConcentration = require("./Matrix.js").sumVectors(vectorSpeciesConcentration, deltaConcentration);
-    if(require("./Matrix.js").testComponentNeg(NewConcentration))
+    var jacobianStarDiag = Matrix.multiplicationMatrix(matriceDiag, inverseJacobianStar,numberSpecies, numberSpecies,numberSpecies);
+    var totalSpeciesCalculate=Concentration.TotalConcentrationSpecies(Data,model,totalCalcConcentration);
+    var diffCalculateReal = Matrix.SubstractVector(Data.totalConcentration, totalSpeciesCalculate);
+    var deltaConcentration = Matrix.multiVectorToMatrix(diffCalculateReal, jacobianStarDiag, numberSpecies);
+    var newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
+    while(Matrix.testComponentNeg(newConcentration))
     {
-    for(var i=0;i<Data.listspecies.length;i++)
-     {
-
-        NewConcentration[i]=Math.abs(NewConcentration[i]);
-     }
+        console.log("problème nég conc= :"+newConcentration);
+        newConcentration=Matrix.SubstractVector(newConcentration,deltaConcentration);
+        for(var i=0; i<numberSpecies; i++)
+        {
+            deltaConcentration[i]=0.1*deltaConcentration[i];
+        }
+        newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
     }
-  
-    return NewConcentration;
+    
+    
+    return newConcentration;
 },
     MonteCarlo: function(vector)
     {
         var newVector=[];
-        for(var i=0;i<vector.length;i++)
-        {
+        for(var i=0;i<vector.length;i++) {
             newVector[i]=Math.random()*vector[i];
         }
        return newVector;
         
     },
+    MonteCarloBroad: function(vector)
+    {
+        var newVector=[];
+        for(var i=0;i<vector.length;i++)
+        {
+            newVector[i]=Math.pow(vector[i]*Math.random(),10);
+        }
+        return newVector;
+    },
     algoSpiderWeb: function(model,Data, vectorConcentration,totalCalcConcentration)
     {
-
-        var distance = require("./Matrix.js").distanceVectors(Data.Totalconcentration,totalCalcConcentration);
-        console.log("distance = "+distance);
+        var Matrix = require("./Matrix");
+        var distance = Matrix.distanceVectors(Data.totalConcentration,totalCalcConcentration);
         var DeltaVector= [];
         var NewConcentrationVector=[];
         var signe=1;
-        for(var i=0;i<totalCalcConcentration.length;i++)
-        {
-            DeltaVector[i]=Data.Totalconcentration[i]-totalCalcConcentration[i];
+        for(var i=0;i<totalCalcConcentration.length;i++) {
+            DeltaVector[i]=Data.totalConcentration[i]-totalCalcConcentration[i];
         }
-        for(var i=0;i<totalCalcConcentration.length;i++)
-        {
+        for(var i=0;i<vectorConcentration.length;i++) {
             if(Math.random()<0.5)signe=-signe;
 
             if(i==0)NewConcentrationVector[0]=signe*Math.random()*DeltaVector[0];
@@ -82,14 +93,14 @@ NewTonRaphsonAlgorithme: function(model, Data, vectorConcentration,totalCalcConc
             {
                 var summSquare=0;
                 var restDistance=0;
-                for(var j=0;j<i;j++)
-                {
+                for(var j=0;j<i;j++) {
                     summSquare = summSquare+(NewConcentrationVector[j]*NewConcentrationVector[j]);
                 }
                 restDistance=Math.sqrt(distance*distance-summSquare);
                 var randomComponent=Math.random()*DeltaVector[i];
                 while(randomComponent>restDistance)
                 {
+                    
                     randomComponent=Math.random()*DeltaVector[i];
                 }
                NewConcentrationVector[i]=signe*randomComponent;
@@ -97,12 +108,10 @@ NewTonRaphsonAlgorithme: function(model, Data, vectorConcentration,totalCalcConc
         }
        return NewConcentrationVector;
     }
-
-
-    };
-{
-
 };
+
+
+
 
 
 
