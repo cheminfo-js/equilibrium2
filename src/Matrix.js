@@ -22,9 +22,7 @@ sumVector(vector)
 
 module.exports=
 {
-
-
-
+    
     SubstractVector: function (vector1, vector2) {
         var vectorFinal = [];
         for (var i = 0; i < vector1.length; i++) {
@@ -287,9 +285,32 @@ module.exports=
             }
         }
         return Matrix.transposeMatrix(comMatrix, dimension, dimension);
+    },
+    unpush: function(symbole,vector)
+    {
+        var newVector=[];
 
+        for(var i=0;i<vector.length;i++)
+        {
+            var a=0;
+            for(var j=0;j<symbole.length;j++)
+            {
+                if (vector[i][0] != symbole[j])a++;
+            }
+            if(a==symbole.length)newVector.push(vector[i]);
+        }
+        return newVector;
+    },
+    arraySplitting: function(Array,component)
+    {
+        var vector=[];
+        for(var i=0;i<Array.length;i++)
+        {
+            vector[i]=Array[i][component];
+        }
+        return vector;
     }
-
+    
 };
 
 

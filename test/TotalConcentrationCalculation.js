@@ -37,4 +37,3 @@ describe('TotalConcentrationCalculation', function () {
         species.should.deepEqual(TotalSpecies);
     });
 });
-

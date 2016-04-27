@@ -6,20 +6,19 @@
 module.exports= {
     totalNewtonRaphtonAlgorithme: function (dataUser){
         
-console.log("Total Newton Algorithme");
+
 const Algorithme = require("../src/AlgorithmeDeltaConcentration");
 const Concentration = require("../src/TotalConcentrationCalculation");
 const MonteCarlo= require("../src/TotalAlgorithme");        
 var model = Concentration.CreateModel(dataUser);
 var numberSpecies = dataUser.listspecies.length;
-var differenceRelatifAccepted = 0.001 * numberSpecies;
+var differenceRelatifAccepted = 0.01 * numberSpecies;
 var totalConcentration= dataUser.totalConcentration;
 var iteration =10;
 
 do {
 var guessConcentration = MonteCarlo.SuperMonteCarloMethod(dataUser);
 }while(!guessConcentration[0]);
-        console.log("vecteur MOnte Carlo trouvé"+guessConcentration);
         
 for(var i=0; i<iteration; i++){
     var componentConcentration = Concentration.ConcentrationCalculation(dataUser, guessConcentration, model);
