@@ -309,6 +309,50 @@ module.exports=
             vector[i]=Array[i][component];
         }
         return vector;
+    },
+    creationIdentityMatrix: function(numberRow)
+    {
+        var Matrix=[];
+        for(var i=0;i<numberRow;i++)
+        {
+            for(var j=0;j<numberRow;j++)
+            {
+                if(!Matrix[i])Matrix[i]=[];
+                if(i===j)Matrix[i][j]=1;
+                else Matrix[i][j]=0;
+            }
+        }
+        return Matrix;
+    },
+    pasteTwoMatrix: function(Matrix1,Matrix2) {
+        var newMatrix = [];
+        for (var i = 0; i < Matrix1.length + Matrix2.length; i++) {
+            for (var j = 0; j < Matrix1.length; j++) {
+                if (!newMatrix[i])newMatrix[i] = [];
+                if (i < Matrix1.length)newMatrix[i][j] = Matrix1[i][j];
+                else newMatrix[i][j] = Matrix2[i - Matrix1.length][j];
+
+            }
+        }
+        return newMatrix;
+    },
+    sumColomnMatrix: function(Matrix) {
+        var vectorFinal=[];
+        for(var i=0;i<Matrix[i].length; i++) {
+            vectorFinal[i]=0;
+        for(var j=0; j<Matrix.length; j++) {
+         vectorFinal[i]=vectorFinal[i]+Matrix[j][i];
+        }}
+        return vectorFinal;
+    },
+    powColomnMatrix: function(Matrix) {
+        var vectorFinal=[];
+        for(var i=0;i<Matrix[i].length; i++) {
+            vectorFinal[i]=1;
+            for(var j=0; j<Matrix.length; j++) {
+                vectorFinal[i]=vectorFinal[i]*Math.pow(Matrix[j][i],Matrix[j][i]);
+            }}                                                 
+        return vectorFinal;
     }
     
 };
