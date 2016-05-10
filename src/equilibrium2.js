@@ -7,39 +7,41 @@ var equilibriumModel={
     species: [
         
         {
-            label:"Ag+",
+            label:"NH3",
             charge:1,
-            total:0.5,
+            total:2,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"NH3",
-            charge:0,
-            total:1.0,
+            label:"Ag+",
+            charge:1,
+            total:1,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
             label:"H+",
             charge:1,
-            total:0.0000001,
+            total:0.001,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         }
 
     ],
     components:[
+        
+        
         {
             label:"Ag(NH3)2",
-            species: [1, 2, 0],
+            species: [ 2, 1, 0],
             constant:-6,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
             label:"OH-",
-            species: [0, 0, -1],
+            species: [ 0, 0, -1],
             constant:14,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
@@ -73,24 +75,25 @@ for(var i=0; i<essaiMonteCarlo; i++){
  
     MonteCarlo.MonteCarloLogarithmique(equilibriumModel);
   
-   console.log(equilibriumModel);
+   console.log("Nouvel essai avec random number:");
+    console.log(equilibriumModel);
     var j = 0;
-  
+
     do {
-        console.log(j);
+        console.log("nouvel essai converge avec newton "+j);
         ConcentrationCalculation.ConcentrationCalculation(equilibriumModel, model);
         var totalSpeciesConcentration=ConcentrationCalculation.TotalConcentrationSpecies(equilibriumModel, model);
         boolean = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
-        console.log(boolean);
-        var vectorComponentConcentration = ConcentrationCalculation.VectorConcentrationAllComponent(equilibriumModel);
-        var error=Newton.NewTonRaphsonAlgorithme(model, equilibriumModel, vectorComponentConcentration);
-        if(error===43)break;
-        var productSolubility=Solubility.productOfSolubility(equilibriumModel);
-        Solubility.CalculPrecipitateFormation(equilibriumModel,productSolubility,modelSolubility);
-        if(boolean)k++;
-        j=j+1;
-        
-    } while (j<5 && boolean==false);
+        if(boolean==false) {
+            var vectorComponentConcentration = ConcentrationCalculation.VectorConcentrationAllComponent(equilibriumModel);
+            var error = Newton.NewTonRaphsonAlgorithme(model, equilibriumModel, vectorComponentConcentration);
+            if (error === 43)break;
+            var productSolubility = Solubility.productOfSolubility(equilibriumModel);
+            Solubility.CalculPrecipitateFormation(equilibriumModel, productSolubility, modelSolubility);
+            if (boolean)k++;
+            j = j + 1;
+        }
+    } while (j<15 && boolean==false);
     if(boolean)break;
     
 }

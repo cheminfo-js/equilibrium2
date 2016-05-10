@@ -33,7 +33,7 @@ module.exports={
     var numberComponent=numberSpecies+equilibriumModel.components.length;
     const Matrix=require("./Matrix");
     var componentConcentration=[];
-    for(var i=0; i<numberComponent; i++)
+    for(var i=0 ; i<numberComponent ; i++)
     {
         if(i<numberSpecies)componentConcentration[i]=species[i].atEquilibrium;
         else componentConcentration[i]=components[i-numberSpecies].atEquilibrium;
