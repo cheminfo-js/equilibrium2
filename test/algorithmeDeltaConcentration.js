@@ -34,7 +34,7 @@ describe('AlgorithmeDeltaConcentration', function () {
         arrayJacobienStar.should.deepEqual(matriceJac);
     });
     it('Newton Raphton Algorithme', function() {
-        var newVector = Algorithme.NewTonRaphsonAlgorithme(model,dataUser,guessConcentration,componentConcentration);
+        var newVector = Algorithme.applyAlgorithm(model,dataUser,guessConcentration,componentConcentration);
         var vectorarrondi=[];
         for(var i=0;i<newVector.length;i++)
         {

@@ -28,8 +28,6 @@ var equilibriumModel={
         }
     ],
     components:[
-        
-        
         {
             label:"Ag(NH3)2",
             species: [ 2, 1, 0],
@@ -46,7 +44,6 @@ var equilibriumModel={
         }
     ],
     precipitate: [
-        
        {
             label:"AgOH",
             species: [],
@@ -69,21 +66,19 @@ var modelSolubility= Model.CreateModelPrecipitate(equilibriumModel);
 Solubility.CalculSolubility(equilibriumModel,modelSolubility);
 var k=0;
 for(var i=0; i<essaiMonteCarlo; i++){
- 
     MonteCarlo.MonteCarloLogarithmique(equilibriumModel);
     var j = 0;
 
     do {
         ConcentrationCalculation.ConcentrationCalculation(equilibriumModel, model);
-        var totalSpeciesConcentration=ConcentrationCalculation.TotalConcentrationSpecies(equilibriumModel, model);
+        var totalSpeciesConcentration=ConcentrationCalculation.calculateTotalConcentrationSpecies(equilibriumModel, model);
         boolean = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
         if(boolean==false) {
             var vectorComponentConcentration = ConcentrationCalculation.VectorConcentrationAllComponent(equilibriumModel);
-            var error = Newton.NewTonRaphsonAlgorithme(model, equilibriumModel, vectorComponentConcentration);
-            if (error === 43)break;
+            Newton.applyAlgorithm(model, equilibriumModel, vectorComponentConcentration);
             var productSolubility = Solubility.productOfSolubility(equilibriumModel);
             Solubility.CalculPrecipitateFormation(equilibriumModel, productSolubility, modelSolubility);
-            if (boolean)k++;
+            if (boolean) k++;
             j = j + 1;
         }
     } while (j<15 && boolean==false);

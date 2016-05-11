@@ -33,7 +33,7 @@ describe('TotalConcentrationCalculation', function () {
         concentrationCalculation.should.deepEqual(concentrationCalc);
     });
     it('Total Species Concentration Calculation', function () {
-        var species = Concentration.TotalConcentrationSpecies(dataUser,model,concentrationCalc);
+        var species = Concentration.calculateTotalConcentrationSpecies(dataUser,model,concentrationCalc);
         species.should.deepEqual(TotalSpecies);
     });
 });

@@ -25,7 +25,7 @@ module.exports={
    
     },
 
-    TotalConcentrationSpecies: function(equilibriumModel, Matrixmodel) {
+    calculateTotalConcentrationSpecies: function(equilibriumModel, Matrixmodel) {
     var volume = equilibriumModel;
     var species = equilibriumModel.species;
     var components= equilibriumModel.components;
