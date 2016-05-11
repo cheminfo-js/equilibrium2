@@ -31,30 +31,22 @@ module.exports= {
      * @return {number}
      */
     NewTonRaphsonAlgorithme: function(matrixModel, equilibriumModel,totalCalcConcentration) {
-        console.log("on est dans l'algortihme");
         var mlMatrix = require("ml").Matrix;
         var Matrix= require("./Matrix");
         var Concentration=require("./ConcentrationCalculationEquilibrium2");
         var Newton = require("./NewtonAlgorithmeEquilibrium2");
         var guessVector= Concentration.vectorSpeciesConcentration(equilibriumModel);
-        console.log("Guess vector "+guessVector);
         var totalRealConcentrationSpecies=Concentration.vectorRealTotalConcentration(equilibriumModel);
         var numberSpecies= equilibriumModel.species.length;
         var jacobianStar = new mlMatrix(numberSpecies,numberSpecies);
         jacobianStar = Newton.JacobianStar(matrixModel, equilibriumModel, totalCalcConcentration);
         var inverseJacobianStar = mlMatrix.inverse(jacobianStar);
-        console.log(inverseJacobianStar);
         var matriceDiag = Matrix.diagonalMatrix(guessVector);
         var jacobianStarDiag = Matrix.multiplicationMatrix(matriceDiag, inverseJacobianStar,numberSpecies, numberSpecies,numberSpecies);
         var totalSpeciesCalculate=Concentration.TotalConcentrationSpecies(equilibriumModel,matrixModel,totalCalcConcentration);
-        console.log(totalSpeciesCalculate);
         var diffCalculateReal = Matrix.SubstractVector(totalRealConcentrationSpecies, totalSpeciesCalculate);
-        console.log("diffCalculateReal "+diffCalculateReal);
-        console.log("jacobian star Diag"+jacobianStarDiag);
         var deltaConcentration = Matrix.multiVectorToMatrix(diffCalculateReal, jacobianStarDiag, numberSpecies);
-        console.log("Delta Concentration: "+deltaConcentration);
         var newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
-        console.log("New Concentration "+newConcentration);
         var v=0;
        
         while(Matrix.testComponentNeg(newConcentration))
@@ -66,10 +58,8 @@ module.exports= {
             }
             newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
         }
-        console.log("Avant le setting "+equilibriumModel.species[0].atEquilibrium);
         Concentration.setConcentrationSpecies(newConcentration,equilibriumModel);
-        console.log("Après le setting "+equilibriumModel.species[0].atEquilibrium);
-        console.log(equilibriumModel.species[0].atEquilibrium);
+        
     }
 };
 

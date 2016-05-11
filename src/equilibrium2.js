@@ -5,7 +5,6 @@
 var equilibriumModel={
     volume:1,
     species: [
-        
         {
             label:"NH3",
             charge:1,
@@ -27,7 +26,6 @@ var equilibriumModel={
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         }
-
     ],
     components:[
         
@@ -71,16 +69,11 @@ var modelSolubility= Model.CreateModelPrecipitate(equilibriumModel);
 Solubility.CalculSolubility(equilibriumModel,modelSolubility);
 var k=0;
 for(var i=0; i<essaiMonteCarlo; i++){
-    console.log(i);
  
     MonteCarlo.MonteCarloLogarithmique(equilibriumModel);
-  
-   console.log("Nouvel essai avec random number:");
-    console.log(equilibriumModel);
     var j = 0;
 
     do {
-        console.log("nouvel essai converge avec newton "+j);
         ConcentrationCalculation.ConcentrationCalculation(equilibriumModel, model);
         var totalSpeciesConcentration=ConcentrationCalculation.TotalConcentrationSpecies(equilibriumModel, model);
         boolean = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
