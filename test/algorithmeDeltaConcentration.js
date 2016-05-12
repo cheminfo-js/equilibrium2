@@ -12,7 +12,7 @@ function DataUser(totalConcentration, listComponentBeta, listSpecies)
 
 const Algorithme= require("../src/AlgorithmeDeltaConcentration");
 const Concentration = require("../src/TotalConcentrationCalculation");
-const mlMatrix = require("ml").Matrix;
+const mlMatrix = require('ml-matrix');
 var listSpecies=["X", "Y", "Z"];
 var listComponentBeta=[["X", 1], ["Y", 1], ["Z", 1], ["XY", 2], ["XZ2", 3], ["YZ", 2], ["XYZ", 1]];
 var guessConcentration=[1,1,1];

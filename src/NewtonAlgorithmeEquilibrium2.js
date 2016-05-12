@@ -9,7 +9,7 @@
 module.exports= {
     JacobianStar: function(matrixModel, equilibriumModel, VectorTotalConcentration)
     {
-        var mlMatrix=require("ml").Matrix;
+        var mlMatrix=require('ml-matrix');
         var Matrix = require("./Matrix");
         var numberSpecies = equilibriumModel.species.length;
         var numberComponent=numberSpecies+equilibriumModel.components.length;
@@ -31,7 +31,7 @@ module.exports= {
      * @return {number}
      */
     applyAlgorithm: function(matrixModel, equilibriumModel, totalCalcConcentration) {
-        var mlMatrix = require("ml").Matrix;
+        var mlMatrix = require('ml-matrix');
         var Matrix= require("./Matrix");
         var Concentration=require("./ConcentrationCalculationEquilibrium2");
         var Newton = require("./NewtonAlgorithmeEquilibrium2");

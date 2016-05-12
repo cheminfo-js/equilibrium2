@@ -88,7 +88,7 @@ module.exports=
         return vector;
     },
     diagonalMatrix: function (vector) {
-        var matrice = require("ml").Matrix;
+        var matrice = require('ml-matrix');
         var matriceDiag = new matrice(vector.length, vector.length);
         for (var i = 0; i < vector.length; i++) {
             for (var j = 0; j < vector.length; j++) {
