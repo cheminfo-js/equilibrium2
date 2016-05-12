@@ -7,11 +7,13 @@
     "ml": "^0.8.1"
   },
   "devDependencies": {
+    "browserify": "^13.0.1",
     "mocha": "^2.4.5",
     "should": "^8.3.1"
   },
   "scripts": {
-    "test": "mocha --require should --recursive"
+    "test": "mocha --require should --recursive",
+    "build": "mkdir -p dist && browserify src/equilibrium2.js --standalone=equilibrium2 > dist/equilibrium2.js"
   },
   "repository": {
     "type": "git",
