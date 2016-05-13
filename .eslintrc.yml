@@ -1,5 +1,5 @@
 env:
-  browser: true
+  node: true
   amd: true
   es6: true
 
@@ -106,14 +106,3 @@ rules:
   space-in-parens: 2
   space-infix-ops: 2
 
-globals:
-  setImmediate: false,
-  escape: false,
-  unescape: false,
-  $: false,
-  jQuery: false,
-  DataObject: false,
-  DataArray: false,
-  DataString: false,
-  DataNumber: false,
-  DataBoolean: false
