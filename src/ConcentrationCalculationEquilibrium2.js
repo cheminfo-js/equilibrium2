@@ -25,7 +25,7 @@ module.exports={
    
     },
 
-    TotalConcentrationSpecies: function(equilibriumModel, Matrixmodel, modelSolubility) {
+    calculateTotalConcentrationSpecies: function(equilibriumModel, Matrixmodel, modelSolubility) {
     const Matrix=require("./Matrix");
     var superModel = Matrix.pasteTwoModel(Matrixmodel, modelSolubility);
      

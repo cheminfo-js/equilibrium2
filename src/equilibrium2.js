@@ -103,11 +103,11 @@ for(var i=0; i<essaiMonteCarlo; i++){
     do {
      
         ConcentrationCalculation.ConcentrationCalculation(equilibriumModel, model);
-        var totalSpeciesConcentration=ConcentrationCalculation.TotalConcentrationSpecies(equilibriumModel, model, modelSolubility);
+        var totalSpeciesConcentration=ConcentrationCalculation.calculateTotalConcentrationSpecies(equilibriumModel, model, modelSolubility);
         boolean = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
         if(boolean==false) {
             var vectorComponentConcentration = ConcentrationCalculation.VectorConcentrationAllComponent(equilibriumModel);
-            var error = Newton.NewTonRaphsonAlgorithme(model, equilibriumModel, vectorComponentConcentration);
+            var error = Newton.applyAlgorithm(model, equilibriumModel, vectorComponentConcentration);
             if (error === 43)break;
             var productSolubility = Solubility.productOfSolubility(equilibriumModel);
             //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
