@@ -8,12 +8,15 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
+    "eslint": "^2.9.0",
     "mocha": "^2.4.5",
     "should": "^8.3.1"
   },
   "scripts": {
     "test": "mocha --require should --recursive",
-    "build": "mkdir -p dist && browserify src/equilibrium2.js --standalone=equilibrium2 > dist/equilibrium2.js"
+    "build": "mkdir -p dist && browserify src/equilibrium2.js --standalone=equilibrium2 > dist/equilibrium2.js",
+    "eslint": "eslint .",
+    "eslint-fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
