@@ -164,6 +164,18 @@ module.exports=
         }
         return multMatrice;
     },
+    multiMatrixToVector: function (matrix,vector, row){
+        var vectorResult=[];
+        for (var j = 0; j < row; j++) {
+            vectorResult[j] = 0;
+            for (var k = 0; k < vector.length; k++) {
+                vectorResult[j] = vectorResult[j] + (matrix[j][k] * vector[k]);
+            }
+        }
+        return vectorResult;
+        
+        
+    },
     multiVectorToMatrix: function (vector, matrix, colomn) {
         var vectorResult = [];
 
@@ -336,6 +348,22 @@ module.exports=
         }
         return newMatrix;
     },
+    pasteTwoModel: function (Model1,Model2){
+        var newMatrix = [];
+       
+        for (var i = 0; i < Model1.length ; i++) {
+            for (var j = 0; j < Model1[i].length+Model2[0].length; j++) {
+                if (!newMatrix[i])newMatrix[i] = [];
+                if (j < Model1[i].length)newMatrix[i][j] = Model1[i][j];
+                else {
+                    newMatrix[i][j] = Model2[i][j-Model1[i].length];
+                  }
+                
+            }
+        }
+        return newMatrix;
+        
+    },
     sumColomnMatrix: function(Matrix) {
         var vectorFinal=[];
         for(var i=0;i<Matrix[i].length; i++) {
@@ -354,6 +382,8 @@ module.exports=
             }}                                                 
         return vectorFinal;
     }
+    
+    
     
 };
 

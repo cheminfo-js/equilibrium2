@@ -13,12 +13,19 @@ module.exports={
         var numberPrecipitate= equilibriumModel.precipitate.length;
         for(var i=0; i<numberPrecipitate; i++)
         {
+            productOfSolubility[i]=1;
             for(var j=0;j<numberSpecies;j++)
             {
-                productOfSolubility[i]=precipitate[i].species[j]*species[j].atEquilibrium;
+                if(precipitate[i].species[j]!=0) {
+                    if(precipitate[i].species[j]>0)
+                    {
+                    productOfSolubility[i] = productOfSolubility[i] * precipitate[i].species[j] * species[j].atEquilibrium;
+                    }
+                    else productOfSolubility[i] = productOfSolubility[i] * Math.abs(precipitate[i].species[j]) * (Math.pow(10,-14)/species[j].atEquilibrium);
+                }
             }
+            precipitate[i].productOfSolubility=productOfSolubility[i];
         }
-        return productOfSolubility;
         
     },
     CalculSolubility: function(equilibriumModel,modelSolubility){
@@ -34,19 +41,24 @@ module.exports={
         }
         
     },
-    CalculPrecipitateFormation: function(equilibriumModel, productOfSolubility, modelSolubility) {
+    CalculPrecipitateFormation: function(equilibriumModel, modelSolubility) {
         var precipitate = equilibriumModel.precipitate;
         var numberPrecipitate = equilibriumModel.precipitate.length;
         var numberSpecies= equilibriumModel.species.length;
         var species= equilibriumModel.species;
         for (var i = 0; i < numberPrecipitate; i++) {
-            if (productOfSolubility[i] > precipitate[i].solubility) {
+            if (precipitate[i].productOfSolubility > precipitate[i].solubility) {
+                precipitate[i].atEquilibrium=precipitate[i].solubility;
+                
                 for(var j=0;j<numberSpecies;j++)
                 {
-                    if(modelSolubility[i][j]!=0)precipitate[i].atEquilibrium=species[j].atEquilibrium-modelSolubility[i][j]*precipitate[i].solubility;
-                    species[j].atEquilibrium=modelSolubility[i][j]*precipitate[i].solubility;
+                    if(modelSolubility[j][i]!=0){
+                    species[j].atEquilibrium=modelSolubility[j][i]*precipitate[i].solubility;
+                    }
+                    
                 }
             }
         }
+        console.log(equilibriumModel);
     }
 };

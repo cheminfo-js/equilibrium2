@@ -19,7 +19,6 @@ module.exports= {
                 var rowiModel = Matrix.extractRow(matrixModel, i, numberComponent);
                 var rowjModel = Matrix.extractRow(matrixModel, j, numberComponent);
                 var multiModel = Matrix.multiVector(rowiModel, rowjModel);
-                
                 var multiConcentration = Matrix.multiVector(multiModel, VectorTotalConcentration);
                 jacobianStar.set(i, j, Matrix.sumVector(multiConcentration));
             }
@@ -45,7 +44,7 @@ module.exports= {
         var jacobianStarDiag = Matrix.multiplicationMatrix(matriceDiag, inverseJacobianStar,numberSpecies, numberSpecies,numberSpecies);
         var totalSpeciesCalculate=Concentration.TotalConcentrationSpecies(equilibriumModel,matrixModel,totalCalcConcentration);
         var diffCalculateReal = Matrix.SubstractVector(totalRealConcentrationSpecies, totalSpeciesCalculate);
-        var deltaConcentration = Matrix.multiVectorToMatrix(diffCalculateReal, jacobianStarDiag, numberSpecies);
+        var deltaConcentration = Matrix.multiMatrixToVector(jacobianStarDiag, diffCalculateReal, numberSpecies);
         var newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
         var v=0;
        

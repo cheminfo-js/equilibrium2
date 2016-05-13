@@ -25,18 +25,23 @@ module.exports={
    
     },
 
-    TotalConcentrationSpecies: function(equilibriumModel, Matrixmodel) {
+    TotalConcentrationSpecies: function(equilibriumModel, Matrixmodel, modelSolubility) {
+    const Matrix=require("./Matrix");
+    var superModel = Matrix.pasteTwoModel(Matrixmodel, modelSolubility);
+     
     var volume = equilibriumModel;
     var species = equilibriumModel.species;
     var components= equilibriumModel.components;
     var numberSpecies=equilibriumModel.species.length;
+    var precipitate= equilibriumModel.precipitate;
     var numberComponent=numberSpecies+equilibriumModel.components.length;
-    const Matrix=require("./Matrix");
+    var numberPrecipitate=equilibriumModel.precipitate.length;
     var componentConcentration=[];
-    for(var i=0 ; i<numberComponent ; i++)
+    for(var i=0 ; i<numberComponent+numberPrecipitate; i++)
     {
         if(i<numberSpecies)componentConcentration[i]=species[i].atEquilibrium;
-        else componentConcentration[i]=components[i-numberSpecies].atEquilibrium;
+        else if(i<numberComponent)componentConcentration[i]=components[i-numberSpecies].atEquilibrium;
+        else componentConcentration[i]=precipitate[i-numberComponent].atEquilibrium;
     }
     var matrixComponentConcentration = Matrix.transposeMatrix(Matrix.rowToMatrix(componentConcentration, numberComponent, numberSpecies), numberSpecies, numberComponent);
     var matrixConcentrationTotal = Matrix.multiMatrix(Matrixmodel, matrixComponentConcentration, numberSpecies, numberComponent);
@@ -99,7 +104,7 @@ module.exports={
         for(var i=0;i<species.length;i++)
         {
             var relativeError= Math.abs(Math.abs(vectorTotalSpecies[i]-totalConcentrationSpeciesCalculate[i])/vectorTotalSpecies[i]);
-            if(relativeError>0.03){
+            if(relativeError>0.01){
                 differenceAccept = false;
             }
             if(relativeError==NaN)
