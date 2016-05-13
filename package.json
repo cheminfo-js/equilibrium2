@@ -2,7 +2,7 @@
   "name": "equilibrium2",
   "version": "0.0.1",
   "description": "software that calcul the concentrations of species into a solution",
-  "main": "src/equilibrium.js",
+  "main": "src/equilibrium2.js",
   "dependencies": {
     "ml-matrix": "^1.0.4"
   },
