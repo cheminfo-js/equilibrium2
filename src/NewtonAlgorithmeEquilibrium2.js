@@ -9,7 +9,7 @@
 module.exports= {
     JacobianStar: function(matrixModel, equilibriumModel, VectorTotalConcentration)
     {
-        var mlMatrix=require("ml").Matrix;
+        var mlMatrix=require('ml-matrix');
         var Matrix = require("./Matrix");
         var numberSpecies = equilibriumModel.species.length;
         var numberComponent=numberSpecies+equilibriumModel.components.length;
@@ -29,8 +29,8 @@ module.exports= {
     /**
      * @return {number}
      */
-    NewTonRaphsonAlgorithme: function(matrixModel, equilibriumModel,totalCalcConcentration) {
-        var mlMatrix = require("ml").Matrix;
+    applyAlgorithm: function(matrixModel, equilibriumModel, totalCalcConcentration) {
+        var mlMatrix = require('ml-matrix');
         var Matrix= require("./Matrix");
         var Concentration=require("./ConcentrationCalculationEquilibrium2");
         var Newton = require("./NewtonAlgorithmeEquilibrium2");
@@ -42,7 +42,7 @@ module.exports= {
         var inverseJacobianStar = mlMatrix.inverse(jacobianStar);
         var matriceDiag = Matrix.diagonalMatrix(guessVector);
         var jacobianStarDiag = Matrix.multiplicationMatrix(matriceDiag, inverseJacobianStar,numberSpecies, numberSpecies,numberSpecies);
-        var totalSpeciesCalculate=Concentration.TotalConcentrationSpecies(equilibriumModel,matrixModel,totalCalcConcentration);
+        var totalSpeciesCalculate=Concentration.calculateTotalConcentrationSpecies(equilibriumModel,matrixModel,totalCalcConcentration);
         var diffCalculateReal = Matrix.SubstractVector(totalRealConcentrationSpecies, totalSpeciesCalculate);
         var deltaConcentration = Matrix.multiMatrixToVector(jacobianStarDiag, diffCalculateReal, numberSpecies);
         var newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
