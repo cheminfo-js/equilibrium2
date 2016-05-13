@@ -1,28 +1,26 @@
-"use strict";
+'use strict';
 /*
-SubstractVector(vec1,vec2)
-multiVector(vec1,vec2)
-multiMatrix(matrix1,matrix2,row,colomn)
-powMatrix(matrix1,matrix2,row,colomn)
-rowToMatrix(vector,row)
-matrixToRow(matrix,colomn,row)
-extractRow(matrix,row,colomn)
-diagMatrix(vector)
-extractSubmatrix(matrice,dimension,deleteRow,deleteColomn)
-detMatrix(matrice,dim)
-inverseMatrix(matrix,dimension)
-transpMatrix(matrix,row,colomn)
-multiplicationMatrix(matrix1,matrix2,rowMatrix1,colomnMatrix2,colomnMatrix1)
-multiVectorToMatrix(vector,matrice,colomn)
-sumRowMatrix(matrix,row,colomn)
-sumVector(vector)
+ SubstractVector(vec1,vec2)
+ multiVector(vec1,vec2)
+ multiMatrix(matrix1,matrix2,row,colomn)
+ powMatrix(matrix1,matrix2,row,colomn)
+ rowToMatrix(vector,row)
+ matrixToRow(matrix,colomn,row)
+ extractRow(matrix,row,colomn)
+ diagMatrix(vector)
+ extractSubmatrix(matrice,dimension,deleteRow,deleteColomn)
+ detMatrix(matrice,dim)
+ inverseMatrix(matrix,dimension)
+ transpMatrix(matrix,row,colomn)
+ multiplicationMatrix(matrix1,matrix2,rowMatrix1,colomnMatrix2,colomnMatrix1)
+ multiVectorToMatrix(vector,matrice,colomn)
+ sumRowMatrix(matrix,row,colomn)
+ sumVector(vector)
 
  */
-//noinspection JSDuplicatedDeclaration
 
-module.exports=
-{
-    
+module.exports = {
+
     SubstractVector: function (vector1, vector2) {
         var vectorFinal = [];
         for (var i = 0; i < vector1.length; i++) {
@@ -131,11 +129,10 @@ module.exports=
         }
         return somme;
     },
-    sumVectors: function(vector1,vector2){
-     var vectorFinal =[];
-        for(var i =0;i<vector1.length;i++)
-        {
-            vectorFinal[i]=vector1[i]+vector2[i];
+    sumVectors: function (vector1, vector2) {
+        var vectorFinal = [];
+        for (var i = 0; i < vector1.length; i++) {
+            vectorFinal[i] = vector1[i] + vector2[i];
         }
         return vectorFinal;
     },
@@ -164,8 +161,8 @@ module.exports=
         }
         return multMatrice;
     },
-    multiMatrixToVector: function (matrix,vector, row){
-        var vectorResult=[];
+    multiMatrixToVector: function (matrix, vector, row) {
+        var vectorResult = [];
         for (var j = 0; j < row; j++) {
             vectorResult[j] = 0;
             for (var k = 0; k < vector.length; k++) {
@@ -173,8 +170,8 @@ module.exports=
             }
         }
         return vectorResult;
-        
-        
+
+
     },
     multiVectorToMatrix: function (vector, matrix, colomn) {
         var vectorResult = [];
@@ -201,142 +198,124 @@ module.exports=
         return sum;
     },
 
-    testComponentNeg:function(vector)
-    {
-        var boolean=false;
-        for(var i=0;i<vector.length;i++)
-        {
-            if(vector[i]<0)boolean=true;
+    testComponentNeg: function (vector) {
+        var boolean = false;
+        for (var i = 0; i < vector.length; i++) {
+            if (vector[i] < 0)boolean = true;
         }
         return boolean;
     },
 
-    multiplyScalarVector: function(scalar,vector)
-    {
-        var vectorfinal=[];
-        for(var i=0;i<vector.length;i++)
-        {
-           vectorfinal[i]=vector[i]*scalar;
+    multiplyScalarVector: function (scalar, vector) {
+        var vectorfinal = [];
+        for (var i = 0; i < vector.length; i++) {
+            vectorfinal[i] = vector[i] * scalar;
 
         }
         return vectorfinal;
     },
 
 
-    detMatrix: function(matrice, dim) {
-    const Matrix=require("./Matrix");
-    var determinant = 0;
-    var signe = 1;
-    var k = dim - 1;
+    detMatrix: function (matrice, dim) {
+        const Matrix = require('./Matrix');
+        var determinant = 0;
+        var signe = 1;
+        var k = dim - 1;
 
-    if (dim == 2) {
+        if (dim == 2) {
 
-    return (matrice[0][0] * matrice[1][1] - matrice[0][1] * matrice[1][0]);
+            return (matrice[0][0] * matrice[1][1] - matrice[0][1] * matrice[1][0]);
 
- }
-    for (var i = 0; i < dim; i++) {
+        }
+        for (var i = 0; i < dim; i++) {
 
-    var mat = Matrix.extractSubmatrix(matrice, dim, 0, i);
-    determinant = determinant + signe * matrice[0][i] * Matrix.detMatrix(mat, k);
-    signe = -signe;
-    }
+            var mat = Matrix.extractSubmatrix(matrice, dim, 0, i);
+            determinant = determinant + signe * matrice[0][i] * Matrix.detMatrix(mat, k);
+            signe = -signe;
+        }
 
- return determinant;
- },
+        return determinant;
+    },
 
-    absVector: function(vector){
-        var newVector=[];
+    absVector: function (vector) {
+        var newVector = [];
 
-        for(var i=0;i<vector.length;i++)
-        {
-            newVector[i]=Math.abs(vector[i]);
+        for (var i = 0; i < vector.length; i++) {
+            newVector[i] = Math.abs(vector[i]);
         }
         return newVector;
     },
 
-    distanceVectors: function(vector1,vector2)
-    {
-        const Matrix=require("./Matrix");
-        var deltaVector= Matrix.SubstractVector(vector2,vector1);
-        var distance=0;
-        for(var i =0;i<vector1.length;i++)
-        {
-         distance =distance+deltaVector[i]*deltaVector[i];
+    distanceVectors: function (vector1, vector2) {
+        const Matrix = require('./Matrix');
+        var deltaVector = Matrix.SubstractVector(vector2, vector1);
+        var distance = 0;
+        for (var i = 0; i < vector1.length; i++) {
+            distance = distance + deltaVector[i] * deltaVector[i];
         }
         return Math.sqrt(distance);
     },
-    coordonneeMax: function(vector)
-    {
-        var tabCoordonneeMax=[];
-        var Currentcoordonnee=0;
-        var numeroCoordonnee=0;
-        for(var i=0;i<vector.length;i++)
-        {
-            if(vector[i]>Currentcoordonnee)
-            {
-                Currentcoordonnee=vector[i];
-                numeroCoordonnee=i;
+    coordonneeMax: function (vector) {
+        var tabCoordonneeMax = [];
+        var Currentcoordonnee = 0;
+        var numeroCoordonnee = 0;
+        for (var i = 0; i < vector.length; i++) {
+            if (vector[i] > Currentcoordonnee) {
+                Currentcoordonnee = vector[i];
+                numeroCoordonnee = i;
             }
         }
-        tabCoordonneeMax[0]=Currentcoordonnee;
-        tabCoordonneeMax[1]=numeroCoordonnee;
+        tabCoordonneeMax[0] = Currentcoordonnee;
+        tabCoordonneeMax[1] = numeroCoordonnee;
         return tabCoordonneeMax;
     },
 
-    inverseMatrix: function(matrix, dimension) {
-        var Matrix= require("./Matrix");
+    inverseMatrix: function (matrix, dimension) {
+        var Matrix = require('./Matrix');
         var comMatrix = [];
         var signe = 1;
         var det_1 = 1 / Matrix.detMatrix(matrix, dimension);
         for (var i = 0; i < dimension; i++) {
             for (var j = 0; j < dimension; j++) {
                 if (!comMatrix[i])comMatrix[i] = [];
-                comMatrix[i][j] = signe * det_1 * Matrix.detMatrix( Matrix.extractSubmatrix(matrix, dimension, i, j), dimension - 1);
+                comMatrix[i][j] = signe * det_1 * Matrix.detMatrix(Matrix.extractSubmatrix(matrix, dimension, i, j), dimension - 1);
                 signe = -signe;
 
             }
         }
         return Matrix.transposeMatrix(comMatrix, dimension, dimension);
     },
-    unpush: function(symbole,vector)
-    {
-        var newVector=[];
+    unpush: function (symbole, vector) {
+        var newVector = [];
 
-        for(var i=0;i<vector.length;i++)
-        {
-            var a=0;
-            for(var j=0;j<symbole.length;j++)
-            {
+        for (var i = 0; i < vector.length; i++) {
+            var a = 0;
+            for (var j = 0; j < symbole.length; j++) {
                 if (vector[i][0] != symbole[j])a++;
             }
-            if(a==symbole.length)newVector.push(vector[i]);
+            if (a == symbole.length)newVector.push(vector[i]);
         }
         return newVector;
     },
-    arraySplitting: function(Array,component)
-    {
-        var vector=[];
-        for(var i=0;i<Array.length;i++)
-        {
-            vector[i]=Array[i][component];
+    arraySplitting: function (Array, component) {
+        var vector = [];
+        for (var i = 0; i < Array.length; i++) {
+            vector[i] = Array[i][component];
         }
         return vector;
     },
-    creationIdentityMatrix: function(numberRow)
-    {
-        var Matrix=[];
-        for(var i=0;i<numberRow;i++)
-        {
-            for(var j=0;j<numberRow;j++)
-            {
-                if(!Matrix[i])Matrix[i]=[];
-                if(i===j)Matrix[i][j]=1;
-                else Matrix[i][j]=0;
+    creationIdentityMatrix: function (numberRow) {
+        var Matrix = [];
+        for (var i = 0; i < numberRow; i++) {
+            for (var j = 0; j < numberRow; j++) {
+                if (!Matrix[i])Matrix[i] = [];
+                if (i === j)Matrix[i][j] = 1;
+                else Matrix[i][j] = 0;
             }
         }
         return Matrix;
     },
-    pasteTwoMatrix: function(Matrix1,Matrix2) {
+    pasteTwoMatrix: function (Matrix1, Matrix2) {
         var newMatrix = [];
         for (var i = 0; i < Matrix1.length + Matrix2.length; i++) {
             for (var j = 0; j < Matrix1.length; j++) {
@@ -348,43 +327,42 @@ module.exports=
         }
         return newMatrix;
     },
-    pasteTwoModel: function (Model1,Model2){
+    pasteTwoModel: function (Model1, Model2) {
         var newMatrix = [];
-       
-        for (var i = 0; i < Model1.length ; i++) {
-            for (var j = 0; j < Model1[i].length+Model2[0].length; j++) {
+
+        for (var i = 0; i < Model1.length; i++) {
+            for (var j = 0; j < Model1[i].length + Model2[0].length; j++) {
                 if (!newMatrix[i])newMatrix[i] = [];
                 if (j < Model1[i].length)newMatrix[i][j] = Model1[i][j];
                 else {
-                    newMatrix[i][j] = Model2[i][j-Model1[i].length];
-                  }
-                
+                    newMatrix[i][j] = Model2[i][j - Model1[i].length];
+                }
+
             }
         }
         return newMatrix;
-        
+
     },
-    sumColomnMatrix: function(Matrix) {
-        var vectorFinal=[];
-        for(var i=0;i<Matrix[i].length; i++) {
-            vectorFinal[i]=0;
-        for(var j=0; j<Matrix.length; j++) {
-         vectorFinal[i]=vectorFinal[i]+Matrix[j][i];
-        }}
+    sumColomnMatrix: function (Matrix) {
+        var vectorFinal = [];
+        for (var i = 0; i < Matrix[i].length; i++) {
+            vectorFinal[i] = 0;
+            for (var j = 0; j < Matrix.length; j++) {
+                vectorFinal[i] = vectorFinal[i] + Matrix[j][i];
+            }
+        }
         return vectorFinal;
     },
-    powColomnMatrix: function(Matrix) {
-        var vectorFinal=[];
-        for(var i=0;i<Matrix[i].length; i++) {
-            vectorFinal[i]=1;
-            for(var j=0; j<Matrix.length; j++) {
-                vectorFinal[i]=vectorFinal[i]*Math.pow(Matrix[j][i],Matrix[j][i]);
-            }}                                                 
+    powColomnMatrix: function (Matrix) {
+        var vectorFinal = [];
+        for (var i = 0; i < Matrix[i].length; i++) {
+            vectorFinal[i] = 1;
+            for (var j = 0; j < Matrix.length; j++) {
+                vectorFinal[i] = vectorFinal[i] * Math.pow(Matrix[j][i], Matrix[j][i]);
+            }
+        }
         return vectorFinal;
     }
-    
-    
-    
 };
 
 

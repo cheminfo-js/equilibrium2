@@ -1,18 +1,18 @@
 /**
  * Created by loicstrauch on 27.04.16.
  */
-"use strict";
+'use strict';
 /**
  * Created by loicstrauch on 15.04.16.
  */
 
-module.exports= {
-    JacobianStar: function(matrixModel, equilibriumModel, VectorTotalConcentration)
+module.exports = {
+    JacobianStar: function (matrixModel, equilibriumModel, VectorTotalConcentration)
     {
-        var mlMatrix=require('ml-matrix');
-        var Matrix = require("./Matrix");
+        var mlMatrix = require('ml-matrix');
+        var Matrix = require('./Matrix');
         var numberSpecies = equilibriumModel.species.length;
-        var numberComponent=numberSpecies+equilibriumModel.components.length;
+        var numberComponent = numberSpecies + equilibriumModel.components.length;
         var jacobianStar = new mlMatrix(numberSpecies, numberSpecies);
         for (var i = 0; i < numberSpecies; i++) {
             for (var j = 0; j < numberSpecies; j++) {
@@ -29,35 +29,35 @@ module.exports= {
     /**
      * @return {number}
      */
-    applyAlgorithm: function(matrixModel, equilibriumModel, totalCalcConcentration) {
+    applyAlgorithm: function (matrixModel, equilibriumModel, totalCalcConcentration) {
         var mlMatrix = require('ml-matrix');
-        var Matrix= require("./Matrix");
-        var Concentration=require("./ConcentrationCalculationEquilibrium2");
-        var Newton = require("./NewtonAlgorithmeEquilibrium2");
-        var guessVector= Concentration.vectorSpeciesConcentration(equilibriumModel);
-        var totalRealConcentrationSpecies=Concentration.vectorRealTotalConcentration(equilibriumModel);
-        var numberSpecies= equilibriumModel.species.length;
-        var jacobianStar = new mlMatrix(numberSpecies,numberSpecies);
+        var Matrix = require('./Matrix');
+        var Concentration = require('./ConcentrationCalculationEquilibrium2');
+        var Newton = require('./NewtonAlgorithmeEquilibrium2');
+        var guessVector = Concentration.vectorSpeciesConcentration(equilibriumModel);
+        var totalRealConcentrationSpecies = Concentration.vectorRealTotalConcentration(equilibriumModel);
+        var numberSpecies = equilibriumModel.species.length;
+        var jacobianStar = new mlMatrix(numberSpecies, numberSpecies);
         jacobianStar = Newton.JacobianStar(matrixModel, equilibriumModel, totalCalcConcentration);
         var inverseJacobianStar = mlMatrix.inverse(jacobianStar);
         var matriceDiag = Matrix.diagonalMatrix(guessVector);
-        var jacobianStarDiag = Matrix.multiplicationMatrix(matriceDiag, inverseJacobianStar,numberSpecies, numberSpecies,numberSpecies);
-        var totalSpeciesCalculate=Concentration.calculateTotalConcentrationSpecies(equilibriumModel,matrixModel,totalCalcConcentration);
+        var jacobianStarDiag = Matrix.multiplicationMatrix(matriceDiag, inverseJacobianStar, numberSpecies, numberSpecies, numberSpecies);
+        var totalSpeciesCalculate = Concentration.calculateTotalConcentrationSpecies(equilibriumModel, matrixModel, totalCalcConcentration);
         var diffCalculateReal = Matrix.SubstractVector(totalRealConcentrationSpecies, totalSpeciesCalculate);
         var deltaConcentration = Matrix.multiMatrixToVector(jacobianStarDiag, diffCalculateReal, numberSpecies);
         var newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
-        var v=0;
+        var v = 0;
        
-        while(Matrix.testComponentNeg(newConcentration))
+        while (Matrix.testComponentNeg(newConcentration))
         {
-            for(var i=0; i<numberSpecies; i++)
+            for (var i = 0; i < numberSpecies; i++)
             {
-                newConcentration=Matrix.SubstractVector(newConcentration,deltaConcentration);
-                deltaConcentration[i]=0.5*deltaConcentration[i];
+                newConcentration = Matrix.SubstractVector(newConcentration, deltaConcentration);
+                deltaConcentration[i] = 0.5 * deltaConcentration[i];
             }
             newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
         }
-        Concentration.setConcentrationSpecies(newConcentration,equilibriumModel);
+        Concentration.setConcentrationSpecies(newConcentration, equilibriumModel);
         
     }
 };
