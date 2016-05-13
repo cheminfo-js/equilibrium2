@@ -58,10 +58,6 @@ rules:
 
   # Stylistic issues
   array-bracket-spacing: 2
-  brace-style:
-    - 2
-    - "1tbs"
-    - {allowSingleLine: true}
   comma-spacing: 2
   comma-style:
     - 2
