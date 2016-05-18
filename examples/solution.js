@@ -1,70 +1,70 @@
 var equilibrium = require('..');
 
-var equilibriumModel={
-    volume:1,
+var equilibriumModel = {
+    volume: 1,
     species: [
         {
-            label:"Na+",
-            charge:1,
-            total:2.2,
+            label: "Na+",
+            charge: 1,
+            total: 2.2,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"CO3--",
-            charge:-2,
-            total:1,
+            label: "CO3--",
+            charge: -2,
+            total: 1,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"NH3",
-            charge:1,
-            total:2,
+            label: "NH3",
+            charge: 1,
+            total: 2,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"Ag+",
-            charge:1,
-            total:1,
+            label: "Ag+",
+            charge: 1,
+            total: 1,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"H+",
-            charge:1,
-            total:-0.2,
+            label: "H+",
+            charge: 1,
+            total: -0.2,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         }
     ],
-    components:[
+    components: [
         {
-            label:"HCO3-",
+            label: "HCO3-",
             species: [0, 1, 0, 0, 1],
-            constant:-6,
+            constant: -6,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"H2CO3",
+            label: "H2CO3",
             species: [0, 1, 0, 0, 2],
-            constant:-9,
+            constant: -9,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"Ag(NH3)2",
+            label: "Ag(NH3)2",
             species: [0, 0, 2, 1, 0],
-            constant:-6,
+            constant: -6,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         },
         {
-            label:"OH-",
+            label: "OH-",
             species: [0, 0, 0, 0, -1],
-            constant:14,
+            constant: 14,
             atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         }
@@ -72,10 +72,10 @@ var equilibriumModel={
     precipitate: [
 
         {
-            label:"AgOH",
+            label: "AgOH",
             species: [0, 0, 0, 1, -1],
-            constant:7,
-            atEquilibrium:0,
+            constant: 7,
+            atEquilibrium: 0,
             fixesEquilibriumQuantity: false
         }
     ]

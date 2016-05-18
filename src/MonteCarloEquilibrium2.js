@@ -3,12 +3,10 @@
  */
 'use strict';
 module.exports = {
-    
-    MonteCarloLogarithmique: function (equilibriumModel)
-    {
+
+    MonteCarloLogarithmique: function (equilibriumModel) {
         var species = equilibriumModel.species;
-        for (var i = 0; i < species.length; i++)
-        {
+        for (var i = 0; i < species.length; i++) {
             species[i].atEquilibrium = Math.abs(species[i].total) * Math.pow(Math.random(), 10);
         }
 

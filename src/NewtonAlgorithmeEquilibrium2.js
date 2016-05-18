@@ -7,8 +7,7 @@
  */
 
 module.exports = {
-    JacobianStar: function (matrixModel, equilibriumModel, VectorTotalConcentration)
-    {
+    JacobianStar: function (matrixModel, equilibriumModel, VectorTotalConcentration) {
         var mlMatrix = require('ml-matrix');
         var Matrix = require('./Matrix');
         var numberSpecies = equilibriumModel.species.length;
@@ -47,18 +46,16 @@ module.exports = {
         var deltaConcentration = Matrix.multiMatrixToVector(jacobianStarDiag, diffCalculateReal, numberSpecies);
         var newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
         var v = 0;
-       
-        while (Matrix.testComponentNeg(newConcentration))
-        {
-            for (var i = 0; i < numberSpecies; i++)
-            {
+
+        while (Matrix.testComponentNeg(newConcentration)) {
+            for (var i = 0; i < numberSpecies; i++) {
                 newConcentration = Matrix.SubstractVector(newConcentration, deltaConcentration);
                 deltaConcentration[i] = 0.5 * deltaConcentration[i];
             }
             newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
         }
         Concentration.setConcentrationSpecies(newConcentration, equilibriumModel);
-        
+
     }
 };
 

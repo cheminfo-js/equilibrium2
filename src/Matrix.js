@@ -1,21 +1,21 @@
 'use strict';
 /*
-SubstractVector(vec1,vec2)
-multiVector(vec1,vec2)
-multiMatrix(matrix1,matrix2,row,colomn)
-powMatrix(matrix1,matrix2,row,colomn)
-rowToMatrix(vector,row)
-matrixToRow(matrix,colomn,row)
-extractRow(matrix,row,colomn)
-diagMatrix(vector)
-extractSubmatrix(matrice,dimension,deleteRow,deleteColomn)
-detMatrix(matrice,dim)
-inverseMatrix(matrix,dimension)
-transpMatrix(matrix,row,colomn)
-multiplicationMatrix(matrix1,matrix2,rowMatrix1,colomnMatrix2,colomnMatrix1)
-multiVectorToMatrix(vector,matrice,colomn)
-sumRowMatrix(matrix,row,colomn)
-sumVector(vector)
+ SubstractVector(vec1,vec2)
+ multiVector(vec1,vec2)
+ multiMatrix(matrix1,matrix2,row,colomn)
+ powMatrix(matrix1,matrix2,row,colomn)
+ rowToMatrix(vector,row)
+ matrixToRow(matrix,colomn,row)
+ extractRow(matrix,row,colomn)
+ diagMatrix(vector)
+ extractSubmatrix(matrice,dimension,deleteRow,deleteColomn)
+ detMatrix(matrice,dim)
+ inverseMatrix(matrix,dimension)
+ transpMatrix(matrix,row,colomn)
+ multiplicationMatrix(matrix1,matrix2,rowMatrix1,colomnMatrix2,colomnMatrix1)
+ multiVectorToMatrix(vector,matrice,colomn)
+ sumRowMatrix(matrix,row,colomn)
+ sumVector(vector)
 
  */
 
@@ -342,7 +342,8 @@ module.exports = {
             vectorFinal[i] = 0;
             for (var j = 0; j < matrix.length; j++) {
                 vectorFinal[i] = vectorFinal[i] + matrix[j][i];
-            }}
+            }
+        }
         return vectorFinal;
     },
     powColomnMatrix: function (matrix) {
@@ -351,13 +352,12 @@ module.exports = {
             vectorFinal[i] = 1;
             for (var j = 0; j < matrix.length; j++) {
                 vectorFinal[i] = vectorFinal[i] * Math.pow(matrix[j][i], matrix[j][i]);
-            }}
+            }
+        }
         return vectorFinal;
     }
-
-
-
 };
+
 
 
 

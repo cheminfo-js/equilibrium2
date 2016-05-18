@@ -29,8 +29,7 @@ module.exports = function (equilibriumModel) {
             boolean = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
             if (boolean == false) {
                 var vectorComponentConcentration = ConcentrationCalculation.VectorConcentrationAllComponent(equilibriumModel);
-                var error = Newton.applyAlgorithm(model, equilibriumModel, vectorComponentConcentration);
-                if (error === 43) break;
+                Newton.applyAlgorithm(model, equilibriumModel, vectorComponentConcentration);
                 var productSolubility = Solubility.productOfSolubility(equilibriumModel);
                 //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
                 if (boolean)k++;

@@ -33,7 +33,7 @@ module.exports = {
                 model[i][j] = Math.abs(precipitate[i].species[j]);
             }
         }
-      
+
         return Matrix.transposeMatrix(model, numberSpecies, numberPrecipitate);
     }
 };
