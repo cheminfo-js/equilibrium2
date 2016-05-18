@@ -105,8 +105,7 @@ module.exports = {
         subMatrice[0] = [];
         for (var i = 0; i < dimension; i++) {
             for (var j = 0; j < dimension; j++) {
-                if (i == deleteRow || j == deleteColomn) {
-                } else {
+                if (i !== deleteRow && j !== deleteColomn) {
                     if (k >= dimSub) {
                         l++;
                         subMatrice[l] = [];

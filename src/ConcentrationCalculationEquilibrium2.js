@@ -105,7 +105,7 @@ module.exports = {
             if (relativeError > 0.01) {
                 differenceAccept = false;
             }
-            if (relativeError == NaN)
+            if (isNaN(relativeError))
             {
                 differenceAccept = -2;
             }

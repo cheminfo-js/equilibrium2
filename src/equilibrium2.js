@@ -8,7 +8,7 @@ const MonteCarlo = require('./MonteCarloEquilibrium2');
 const ConcentrationCalculation = require('../src/ConcentrationCalculationEquilibrium2');
 const Model = require('../src/ModelEquilibrium2');
 const Newton = require('../src/NewtonAlgorithmeEquilibrium2');
-const Solubility = require('./SolubilisationEquilibrium2');
+const Solubility = require('../src/SolubilisationEquilibrium2');
 const essaiMonteCarlo = 1000000;
 
 module.exports = function (equilibriumModel) {
