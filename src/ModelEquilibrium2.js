@@ -3,10 +3,11 @@
  */
 'use strict';
 
+const Matrix = require('./Matrix');
+
 module.exports = {
 
     CreateModel: function (equilibriumModel) {
-        const Matrix = require('./Matrix');
         var component = equilibriumModel.components;
         var numberComponent = equilibriumModel.components.length;
         var numberSpecies = equilibriumModel.species.length;
@@ -22,7 +23,6 @@ module.exports = {
         return Matrix.transposeMatrix(modelComplet, numberSpecies, numberComponent + numberSpecies);
     },
     CreateModelPrecipitate: function (equilibriumModel) {
-        const Matrix = require('./Matrix');
         var precipitate = equilibriumModel.precipitate;
         var numberPrecipitate = equilibriumModel.precipitate.length;
         var numberSpecies = equilibriumModel.species.length;
