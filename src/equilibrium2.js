@@ -9,9 +9,11 @@ const ConcentrationCalculation = require('../src/ConcentrationCalculationEquilib
 const Model = require('../src/ModelEquilibrium2');
 const Newton = require('../src/NewtonAlgorithmeEquilibrium2');
 const Solubility = require('../src/SolubilisationEquilibrium2');
+const deepcopy = require('deepcopy');
 const essaiMonteCarlo = 1000000;
 
 module.exports = function (equilibriumModel) {
+    equilibriumModel = deepcopy(equilibriumModel);
     var boolean = false;
     var model = Model.CreateModel(equilibriumModel);
     var modelSolubility = Model.CreateModelPrecipitate(equilibriumModel);

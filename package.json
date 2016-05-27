@@ -4,6 +4,7 @@
   "description": "software that calcul the concentrations of species into a solution",
   "main": "src/equilibrium2.js",
   "dependencies": {
+    "deepcopy": "^0.6.1",
     "ml-matrix": "^1.0.4"
   },
   "devDependencies": {
