@@ -1,6 +1,6 @@
 'use strict';
 
-const Matrix = require('../src/Matrix');
+const Matrix = require('../src/util/matrix');
 const Matrixlm = require('ml-matrix');
 
 /**

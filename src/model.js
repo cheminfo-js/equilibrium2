@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const Matrix = require('./Matrix');
+const Matrix = require('./util/matrix');
 
 module.exports = {
 

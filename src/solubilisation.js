@@ -26,7 +26,7 @@ module.exports = {
 
     },
     CalculSolubility: function (equilibriumModel, modelSolubility) {
-        const Matrix = require('./Matrix');
+        const Matrix = require('./util/matrix');
         var precipitate = equilibriumModel.precipitate;
         var numberPrecipitate = equilibriumModel.precipitate.length;
         var coefficientMutiplicator = Matrix.sumColomnMatrix(modelSolubility);

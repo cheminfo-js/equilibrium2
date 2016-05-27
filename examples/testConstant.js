@@ -83,12 +83,12 @@ var equilibriumModel = {
         }
     ]
 };
-const MonteCarlo = require('./../src/MonteCarloEquilibrium2');
-const ConcentrationCalculation = require('../src/ConcentrationCalculationEquilibrium2');
-const Model = require('../src/ModelEquilibrium2');
-const Newton = require('../src/NewtonAlgorithmeEquilibrium2');
-const Solubility = require('./../src/SolubilisationEquilibrium2');
-const Matrix = require('../src/Matrix');
+const MonteCarlo = require('./../src/monteCarlo');
+const ConcentrationCalculation = require('../src/concentrationCalculation');
+const Model = require('../src/model');
+const Newton = require('../src/newtonAlgorithme');
+const Solubility = require('./../src/solubilisation');
+const Matrix = require('../src/util/matrix');
 const Constant = require('../src/fixesEquilibirumQuantity');
 
 var newEquilibrium = Constant.CreateNewEquilibriumModel(equilibriumModel);
