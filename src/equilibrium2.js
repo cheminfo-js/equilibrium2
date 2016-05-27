@@ -19,7 +19,7 @@ module.exports = function (equilibriumModel) {
     Solubility.calculSolubility(equilibriumModel, modelSolubility);
     for (var i = 0; i < essaiMonteCarlo; i++) {
 
-        MonteCarlo.monteCarloLogarithmique(equilibriumModel);
+        MonteCarlo.logarithmic(equilibriumModel);
         var j = 0;
 
         do {
