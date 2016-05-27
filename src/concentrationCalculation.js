@@ -7,7 +7,7 @@
 const Matrix = require('./util/matrix');
 
 module.exports = {
-    ConcentrationCalculation: function (equilibriumModel, matrixModel) {
+    concentrationCalculation: function (equilibriumModel, matrixModel) {
         var components = equilibriumModel.components;
         var species = equilibriumModel.species;
         var numberSpecies = equilibriumModel.species.length;
@@ -45,7 +45,7 @@ module.exports = {
         var matrixConcentrationTotal = Matrix.multiMatrix(Matrixmodel, matrixComponentConcentration, numberSpecies, numberComponent);
         return Matrix.sumRowMatrix(matrixConcentrationTotal, numberSpecies, numberComponent);
     },
-    VectorConcentrationAllComponent: function (equilibriumModel) {
+    vectorConcentrationAllComponent: function (equilibriumModel) {
         var species = equilibriumModel.species;
         var components = equilibriumModel.components;
         var numberSpecies = equilibriumModel.species.length;

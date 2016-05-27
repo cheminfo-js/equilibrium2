@@ -7,7 +7,7 @@
  */
 
 module.exports = {
-    JacobianStar: function (matrixModel, equilibriumModel, VectorTotalConcentration) {
+    jacobianStar: function (matrixModel, equilibriumModel, VectorTotalConcentration) {
         var mlMatrix = require('ml-matrix');
         var Matrix = require('./util/matrix');
         var numberSpecies = equilibriumModel.species.length;
@@ -37,19 +37,19 @@ module.exports = {
         var totalRealConcentrationSpecies = Concentration.vectorRealTotalConcentration(equilibriumModel);
         var numberSpecies = equilibriumModel.species.length;
         var jacobianStar = new mlMatrix(numberSpecies, numberSpecies);
-        jacobianStar = Newton.JacobianStar(matrixModel, equilibriumModel, totalCalcConcentration);
+        jacobianStar = Newton.jacobianStar(matrixModel, equilibriumModel, totalCalcConcentration);
         var inverseJacobianStar = mlMatrix.inverse(jacobianStar);
         var matriceDiag = Matrix.diagonalMatrix(guessVector);
         var jacobianStarDiag = Matrix.multiplicationMatrix(matriceDiag, inverseJacobianStar, numberSpecies, numberSpecies, numberSpecies);
         var totalSpeciesCalculate = Concentration.calculateTotalConcentrationSpecies(equilibriumModel, matrixModel, totalCalcConcentration);
-        var diffCalculateReal = Matrix.SubstractVector(totalRealConcentrationSpecies, totalSpeciesCalculate);
+        var diffCalculateReal = Matrix.substractVector(totalRealConcentrationSpecies, totalSpeciesCalculate);
         var deltaConcentration = Matrix.multiMatrixToVector(jacobianStarDiag, diffCalculateReal, numberSpecies);
         var newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);
         var v = 0;
 
         while (Matrix.testComponentNeg(newConcentration)) {
             for (var i = 0; i < numberSpecies; i++) {
-                newConcentration = Matrix.SubstractVector(newConcentration, deltaConcentration);
+                newConcentration = Matrix.substractVector(newConcentration, deltaConcentration);
                 deltaConcentration[i] = 0.5 * deltaConcentration[i];
             }
             newConcentration = Matrix.sumVectors(guessVector, deltaConcentration);

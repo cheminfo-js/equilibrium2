@@ -31,7 +31,7 @@ var vector12=[15,1];
 
 describe('Matrix', function () {
     it('Substract vector', function () {
-        var sub = Matrix.SubstractVector(vector1, vector2);
+        var sub = Matrix.substractVector(vector1, vector2);
         sub.should.deepEqual(vector3);
     });
     it('Multiplication vector', function () {

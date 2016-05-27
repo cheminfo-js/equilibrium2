@@ -25,7 +25,7 @@ module.exports = {
         }
 
     },
-    CalculSolubility: function (equilibriumModel, modelSolubility) {
+    calculSolubility: function (equilibriumModel, modelSolubility) {
         const Matrix = require('./util/matrix');
         var precipitate = equilibriumModel.precipitate;
         var numberPrecipitate = equilibriumModel.precipitate.length;

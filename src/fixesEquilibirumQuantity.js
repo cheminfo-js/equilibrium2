@@ -5,7 +5,7 @@
 
 module.exports = {
 
-    CreateNewEquilibriumModel: function (equilibriumModel) {
+    createNewEquilibriumModel: function (equilibriumModel) {
         var newEquilibriumModel = equilibriumModel;
         newEquilibriumModel.species = [null];
         var newComponent = newEquilibriumModel.components;

@@ -1,6 +1,6 @@
 'use strict';
 /*
- SubstractVector(vec1,vec2)
+ substractVector(vec1,vec2)
  multiVector(vec1,vec2)
  multiMatrix(matrix1,matrix2,row,colomn)
  powMatrix(matrix1,matrix2,row,colomn)
@@ -22,7 +22,7 @@
 var matrice = require('ml-matrix');
 
 module.exports = {
-    SubstractVector: function (vector1, vector2) {
+    substractVector: function (vector1, vector2) {
         var vectorFinal = [];
         for (var i = 0; i < vector1.length; i++) {
             vectorFinal[i] = vector1[i] - vector2[i];
@@ -243,7 +243,7 @@ module.exports = {
     },
 
     distanceVectors: function (vector1, vector2) {
-        var deltaVector = module.exports.SubstractVector(vector2, vector1);
+        var deltaVector = module.exports.substractVector(vector2, vector1);
         var distance = 0;
         for (var i = 0; i < vector1.length; i++) {
             distance = distance + deltaVector[i] * deltaVector[i];

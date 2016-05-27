@@ -7,7 +7,7 @@ const Matrix = require('./util/matrix');
 
 module.exports = {
 
-    CreateModel: function (equilibriumModel) {
+    createModel: function (equilibriumModel) {
         var component = equilibriumModel.components;
         var numberComponent = equilibriumModel.components.length;
         var numberSpecies = equilibriumModel.species.length;
@@ -22,7 +22,7 @@ module.exports = {
         var modelComplet = Matrix.pasteTwoMatrix(unityMatrix, model);
         return Matrix.transposeMatrix(modelComplet, numberSpecies, numberComponent + numberSpecies);
     },
-    CreateModelPrecipitate: function (equilibriumModel) {
+    createModelPrecipitate: function (equilibriumModel) {
         var precipitate = equilibriumModel.precipitate;
         var numberPrecipitate = equilibriumModel.precipitate.length;
         var numberSpecies = equilibriumModel.species.length;

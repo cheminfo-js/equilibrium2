@@ -73,5 +73,5 @@ const Solubility = require('./../src/solubilisation');
 const Matrix = require('../src/util/matrix');
 const Constant = require('../src/fixesEquilibirumQuantity');
 
-var newEquilibrium = Constant.CreateNewEquilibriumModel(equilibriumModel);
+var newEquilibrium = Constant.createNewEquilibriumModel(equilibriumModel);
 console.log(newEquilibrium);
