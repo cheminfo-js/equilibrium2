@@ -7,7 +7,7 @@
 const MonteCarlo = require('./monteCarlo');
 const ConcentrationCalculation = require('./concentrationCalculation');
 const Model = require('./model');
-const Newton = require('./newtonAlgorithme');
+const newton = require('./newton');
 const Solubility = require('./solubilisation');
 const deepcopy = require('deepcopy');
 const essaiMonteCarlo = 1000000;
@@ -29,7 +29,7 @@ module.exports = function (equilibriumModel) {
             var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
             if (!hasConverged) {
                 var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(equilibriumModel);
-                Newton.applyAlgorithm(model, equilibriumModel, vectorComponentConcentration);
+                newton(model, equilibriumModel, vectorComponentConcentration);
                 var productSolubility = Solubility.productOfSolubility(equilibriumModel);
                 //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
                 j = j + 1;
