@@ -14,11 +14,9 @@ const essaiMonteCarlo = 1000000;
 
 module.exports = function (equilibriumModel) {
     equilibriumModel = deepcopy(equilibriumModel);
-    var boolean = false;
     var model = Model.CreateModel(equilibriumModel);
     var modelSolubility = Model.CreateModelPrecipitate(equilibriumModel);
     Solubility.CalculSolubility(equilibriumModel, modelSolubility);
-    var k = 0;
     for (var i = 0; i < essaiMonteCarlo; i++) {
 
         MonteCarlo.MonteCarloLogarithmique(equilibriumModel);
@@ -28,18 +26,17 @@ module.exports = function (equilibriumModel) {
 
             ConcentrationCalculation.ConcentrationCalculation(equilibriumModel, model);
             var totalSpeciesConcentration = ConcentrationCalculation.calculateTotalConcentrationSpecies(equilibriumModel, model, modelSolubility);
-            boolean = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
-            if (boolean == false) {
+            var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
+            if (!hasConverged) {
                 var vectorComponentConcentration = ConcentrationCalculation.VectorConcentrationAllComponent(equilibriumModel);
                 Newton.applyAlgorithm(model, equilibriumModel, vectorComponentConcentration);
                 var productSolubility = Solubility.productOfSolubility(equilibriumModel);
                 //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
-                if (boolean)k++;
                 j = j + 1;
             }
-        } while (j < 15 && boolean == false);
-        if (boolean) break;
+        } while (j < 15 && hasConverged == false);
+        if (hasConverged) break;
     }
 
-    console.log(equilibriumModel);
+    return equilibriumModel;
 };

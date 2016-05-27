@@ -6,67 +6,49 @@ var equilibriumModel = {
         {
             label: "Na+",
             charge: 1,
-            total: 2.2,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            total: 2.2
         },
         {
             label: "CO3--",
             charge: -2,
-            total: 1,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            total: 1
         },
         {
             label: "NH3",
             charge: 1,
-            total: 2,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            total: 2
         },
         {
             label: "Ag+",
             charge: 1,
-            total: 1,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            total: 1
         },
         {
             label: "H+",
             charge: 1,
-            total: -0.2,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            total: -0.2
         }
     ],
     components: [
         {
             label: "HCO3-",
             species: [0, 1, 0, 0, 1],
-            constant: -6,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            Keq: -6
         },
         {
             label: "H2CO3",
             species: [0, 1, 0, 0, 2],
-            constant: -9,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            Keq: -9
         },
         {
             label: "Ag(NH3)2",
             species: [0, 0, 2, 1, 0],
-            constant: -6,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            Keq: -6
         },
         {
             label: "OH-",
             species: [0, 0, 0, 0, -1],
-            constant: 14,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            Keq: 14
         }
     ],
     precipitate: [
@@ -74,11 +56,12 @@ var equilibriumModel = {
         {
             label: "AgOH",
             species: [0, 0, 0, 1, -1],
-            constant: 7,
-            atEquilibrium: 0,
-            fixesEquilibriumQuantity: false
+            Keq: 7
         }
     ]
 };
 
-equilibrium(equilibriumModel);
+
+var atEquilibrium = equilibrium(equilibriumModel);
+console.log(equilibriumModel);
+console.log(atEquilibrium);

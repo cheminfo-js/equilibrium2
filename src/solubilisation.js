@@ -33,7 +33,7 @@ module.exports = {
         var coefficientPow = Matrix.powColomnMatrix(modelSolubility);
 
         for (var i = 0; i < numberPrecipitate; i++) {
-            precipitate[i].solubility = Math.pow((Math.pow(10, -precipitate[i].constant) / coefficientPow[i]), (1 / coefficientMutiplicator[i]));
+            precipitate[i].solubility = Math.pow((Math.pow(10, -precipitate[i].Keq) / coefficientPow[i]), (1 / coefficientMutiplicator[i]));
         }
 
     },

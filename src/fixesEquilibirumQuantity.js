@@ -37,12 +37,12 @@ module.exports = {
             else {
                 for (var j = 0; j < component.length; j++) {
                     if (component[j].species[i] != 0) {
-                        newComponent[j].constant = component[j].constant * Math.pow(species[i].atEquilibrium, component[j].species[i]);
+                        newComponent[j].Keq = component[j].Keq * Math.pow(species[i].atEquilibrium, component[j].species[i]);
                     }
                     /*
                      for (var j = 0; j < precipitate.length; j++) {
                      if (precipitate[j].species[i] != 0) {
-                     newPrecipitate[j].constant = precipitate[j].constant * Math.pow(species[i].atEquilibrium, precipitate[j].species[i]);
+                     newPrecipitate[j].Keq = precipitate[j].Keq * Math.pow(species[i].atEquilibrium, precipitate[j].species[i]);
                      }
                      }*/
                     //newEquilibriumModel.constantSpecies[newConstant]=species[i];

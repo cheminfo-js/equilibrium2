@@ -20,7 +20,7 @@ module.exports = {
 
         for (var i = 0; i < numberComponent; i++) {
             if (i < numberSpecies) species[i].atEquilibrium = ComponentConcentration[i];
-            else components[i - numberSpecies].atEquilibrium = ComponentConcentration[i] * Math.pow(10, -components[i - numberSpecies].constant);
+            else components[i - numberSpecies].atEquilibrium = ComponentConcentration[i] * Math.pow(10, -components[i - numberSpecies].Keq);
         }
 
     },
@@ -95,10 +95,10 @@ module.exports = {
                 differenceAccept = false;
             }
             if (isNaN(relativeError)) {
-                differenceAccept = -2;
+                throw new Error('Relative error is NaN');
             }
             if (relativeError == Infinity) {
-                differenceAccept = -1;
+                throw new Error('Relative error is Infinity');
             }
         }
         return differenceAccept;
