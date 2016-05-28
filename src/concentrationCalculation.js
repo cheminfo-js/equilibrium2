@@ -25,8 +25,8 @@ module.exports = {
 
     },
 
-    calculateTotalConcentrationSpecies: function (equilibriumModel, Matrixmodel, modelSolubility) {
-        var superModel = Matrix.pasteTwoModel(Matrixmodel, modelSolubility);
+    calculateTotalConcentrationSpecies: function (equilibriumModel, Matrixmodel/*, modelSolubility*/) {
+        //var superModel = Matrix.pasteTwoModel(Matrixmodel, modelSolubility);
 
         var volume = equilibriumModel;
         var species = equilibriumModel.species;
@@ -108,7 +108,7 @@ module.exports = {
         var species = equilibriumModel.species;
         var volume = equilibriumModel.volume;
         for (var i = 0; i < numberSpecies; i++) {
-            species[i] = species[i] / volume;
+            species[i].total = species[i].total / volume;
         }
     }
 

@@ -30,7 +30,7 @@ module.exports = {
         for (var i = 0; i < numberPrecipitate; i++) {
             for (var j = 0; j < numberSpecies; j++) {
                 if (!model[i])model[i] = [];
-                model[i][j] = Math.abs(precipitate[i].species[j]);
+                model[i][j] = precipitate[i].species[j];
             }
         }
 

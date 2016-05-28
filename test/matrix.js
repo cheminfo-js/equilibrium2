@@ -118,9 +118,6 @@ describe('Matrix', function () {
         var max = Matrix.coordonneeMax(vector7);
         max.should.deepEqual(vector12);
     });
-
-
-
 }); 
 
 
