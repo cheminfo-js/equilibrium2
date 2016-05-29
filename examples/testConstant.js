@@ -9,12 +9,14 @@ var equilibriumModel = {
         {
             label:'Na+',
             charge:1,
-            total:2.2
+            total:2.2,
+           
         },
         {
             label:'CO3--',
             charge:-2,
-            total:1
+            total:1,
+            atEquilibrium: 2.0
         },
         {
             label:'NH3',

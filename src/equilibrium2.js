@@ -6,6 +6,7 @@
 
 const MonteCarlo = require('./monteCarlo');
 const ConcentrationCalculation = require('./concentrationCalculation');
+const fixesEquilibrium= require('./fixesEquilibirumQuantity');
 const Model = require('./model');
 const newton = require('./newton');
 const Solubility = require('./solubilisation');
@@ -14,6 +15,7 @@ const essaiMonteCarlo = 1000000;
 
 module.exports = function (equilibriumModel) {
     equilibriumModel = deepcopy(equilibriumModel);
+    fixesEquilibrium.createNewEquilibriumModel(equilibriumModel);
     var model = Model.createModel(equilibriumModel);
     var modelSolubility = Model.createModelPrecipitate(equilibriumModel);
     Solubility.calculSolubility(equilibriumModel, modelSolubility);
@@ -30,13 +32,12 @@ module.exports = function (equilibriumModel) {
             if (!hasConverged) {
                 var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(equilibriumModel);
                 newton(model, equilibriumModel, vectorComponentConcentration);
-                var productSolubility = Solubility.productOfSolubility(equilibriumModel);
+                //var productSolubility = Solubility.productOfSolubility(equilibriumModel);
                 //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
                 j = j + 1;
             }
         } while (j < 15 && hasConverged == false);
         if (hasConverged) break;
     }
-
     return equilibriumModel;
 };

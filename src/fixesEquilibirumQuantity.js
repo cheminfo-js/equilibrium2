@@ -2,55 +2,32 @@
  * Created by loicstrauch on 12.05.16.
  */
 'use strict';
-
+const Matrix= require('../src/util/matrix');
 module.exports = {
 
     createNewEquilibriumModel: function (equilibriumModel) {
-        var newEquilibriumModel = equilibriumModel;
-        newEquilibriumModel.species = [null];
-        var newComponent = newEquilibriumModel.components;
-        var newPrecipitate = newEquilibriumModel.precipitate;
         var species = equilibriumModel.species;
-        var numberComponent = equilibriumModel.components.length;
         var component = equilibriumModel.components;
-        var precipitate = equilibriumModel.precipitate;
-        newEquilibriumModel.constantSpecies = [];
-
-        var newConstant = 0;
-        var numberCurrentNewSpecies = 0;
-
-        for (var t = 0; t < numberComponent; t++) {
-            newComponent[t].species = [];
-        }
-
-        console.log(newEquilibriumModel);
-        for (var i = 0; i < species.length; i++) {
-            if (species[i].fixesEquilibriumQuantity == false) {
-
-                newEquilibriumModel.species[numberCurrentNewSpecies] = species[i];
-                for (var u = 0; u < numberComponent; u++) {
-                    newComponent[u].species[numberCurrentNewSpecies] = component[u].species[i];
-                }
-                numberCurrentNewSpecies++;
-            }
-
-            else {
-                for (var j = 0; j < component.length; j++) {
-                    if (component[j].species[i] != 0) {
-                        newComponent[j].Keq = component[j].Keq * Math.pow(species[i].atEquilibrium, component[j].species[i]);
-                    }
-                    /*
-                     for (var j = 0; j < precipitate.length; j++) {
-                     if (precipitate[j].species[i] != 0) {
-                     newPrecipitate[j].Keq = precipitate[j].Keq * Math.pow(species[i].atEquilibrium, precipitate[j].species[i]);
-                     }
-                     }*/
-                    //newEquilibriumModel.constantSpecies[newConstant]=species[i];
-                    newConstant++;
-                }
+        var numberSpecies= species.length;
+        var numberComponents= component.length;
+        var speciesDeleted=[];
+        for(var i=0; i< numberSpecies;i++)
+        {
+            if (species[i].atEquilibrium != undefined) 
+            {
+              equilibriumModel.constant = equilibriumModel.species[i];
+              for(var j=0;j<numberComponents;j++)
+              {
+                 component[j].Keq=component[j].Keq-0.4342944819*Math.log(Math.pow(species[i].atEquilibrium,component[j].species[i]));
+                 component[j].species= Matrix.deleteOneVariableOfArray(i,component[j].species);
+                  speciesDeleted.push(i);
+              }
+               
             }
         }
-        return newEquilibriumModel;
+      equilibriumModel.species = Matrix.deleteCollectionofVariableOfArray(speciesDeleted,species);
+        
+    return equilibriumModel;
     }
 
 };

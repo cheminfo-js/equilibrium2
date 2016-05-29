@@ -355,6 +355,26 @@ module.exports = {
             }
         }
         return vectorFinal;
+    },
+    deleteOneVariableOfArray:function(place,array){
+        var newArray=[];
+        for(var i=0;i<array.length;i++)
+        {
+            if(i!=place)newArray.push(array[i]);
+        }
+        return newArray;
+    },
+    deleteCollectionofVariableOfArray:function(arrayDelete,array){
+        
+        var newArray = [];
+        var k=0;
+        
+        for(var i=0; i<array.length;i++)
+        {
+            if(i!=arrayDelete[k])newArray.push(array[i]);
+            else k++;
+        }
+       return newArray; 
     }
 };
 
