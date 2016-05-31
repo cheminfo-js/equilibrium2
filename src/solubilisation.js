@@ -24,36 +24,5 @@ module.exports = {
             precipitate[i].productOfSolubility = productOfSolubility[i];
         }
 
-    },
-    calculSolubility: function (equilibriumModel, modelSolubility) {
-        const Matrix = require('./util/matrix');
-        var precipitate = equilibriumModel.precipitate;
-        var numberPrecipitate = equilibriumModel.precipitate.length;
-        var coefficientMutiplicator = Matrix.sumColomnMatrix(modelSolubility);
-        var coefficientPow = Matrix.powColomnMatrix(modelSolubility);
-
-        for (var i = 0; i < numberPrecipitate; i++) {
-            precipitate[i].solubility = Math.pow((Math.pow(10, -precipitate[i].Keq) / coefficientPow[i]), (1 / coefficientMutiplicator[i]));
-        }
-
-    },
-    CalculPrecipitateFormation: function (equilibriumModel, modelSolubility) {
-        var precipitate = equilibriumModel.precipitate;
-        var numberPrecipitate = equilibriumModel.precipitate.length;
-        var numberSpecies = equilibriumModel.species.length;
-        var species = equilibriumModel.species;
-        for (var i = 0; i < numberPrecipitate; i++) {
-            if (precipitate[i].productOfSolubility > precipitate[i].solubility) {
-                precipitate[i].atEquilibrium = precipitate[i].solubility;
-
-                for (var j = 0; j < numberSpecies; j++) {
-                    if (modelSolubility[j][i] != 0) {
-                        species[j].atEquilibrium = modelSolubility[j][i] * precipitate[i].solubility;
-                    }
-
-                }
-            }
-        }
-        console.log(equilibriumModel);
     }
 };

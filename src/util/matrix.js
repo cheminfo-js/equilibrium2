@@ -241,63 +241,7 @@ module.exports = {
         }
         return newVector;
     },
-
-    distanceVectors: function (vector1, vector2) {
-        var deltaVector = module.exports.substractVector(vector2, vector1);
-        var distance = 0;
-        for (var i = 0; i < vector1.length; i++) {
-            distance = distance + deltaVector[i] * deltaVector[i];
-        }
-        return Math.sqrt(distance);
-    },
-    coordonneeMax: function (vector) {
-        var tabCoordonneeMax = [];
-        var Currentcoordonnee = 0;
-        var numeroCoordonnee = 0;
-        for (var i = 0; i < vector.length; i++) {
-            if (vector[i] > Currentcoordonnee) {
-                Currentcoordonnee = vector[i];
-                numeroCoordonnee = i;
-            }
-        }
-        tabCoordonneeMax[0] = Currentcoordonnee;
-        tabCoordonneeMax[1] = numeroCoordonnee;
-        return tabCoordonneeMax;
-    },
-
-    inverseMatrix: function (matrix, dimension) {
-        var comMatrix = [];
-        var signe = 1;
-        var det_1 = 1 / module.exports.detMatrix(matrix, dimension);
-        for (var i = 0; i < dimension; i++) {
-            for (var j = 0; j < dimension; j++) {
-                if (!comMatrix[i])comMatrix[i] = [];
-                comMatrix[i][j] = signe * det_1 * module.exports.detMatrix(module.exports.extractSubmatrix(matrix, dimension, i, j), dimension - 1);
-                signe = -signe;
-
-            }
-        }
-        return module.exports.transposeMatrix(comMatrix, dimension, dimension);
-    },
-    unpush: function (symbole, vector) {
-        var newVector = [];
-
-        for (var i = 0; i < vector.length; i++) {
-            var a = 0;
-            for (var j = 0; j < symbole.length; j++) {
-                if (vector[i][0] != symbole[j])a++;
-            }
-            if (a == symbole.length)newVector.push(vector[i]);
-        }
-        return newVector;
-    },
-    arraySplitting: function (Array, component) {
-        var vector = [];
-        for (var i = 0; i < Array.length; i++) {
-            vector[i] = Array[i][component];
-        }
-        return vector;
-    },
+    
     creationIdentityMatrix: function (numberRow) {
         var Matrix = [];
         for (var i = 0; i < numberRow; i++) {
@@ -336,26 +280,7 @@ module.exports = {
         }
         return newMatrix;
     },
-    sumColomnMatrix: function (matrix) {
-        var vectorFinal = [];
-        for (var i = 0; i < matrix[i].length; i++) {
-            vectorFinal[i] = 0;
-            for (var j = 0; j < matrix.length; j++) {
-                vectorFinal[i] = vectorFinal[i] + matrix[j][i];
-            }
-        }
-        return vectorFinal;
-    },
-    powColomnMatrix: function (matrix) {
-        var vectorFinal = [];
-        for (var i = 0; i < matrix[i].length; i++) {
-            vectorFinal[i] = 1;
-            for (var j = 0; j < matrix.length; j++) {
-                vectorFinal[i] = vectorFinal[i] * Math.pow(matrix[j][i], matrix[j][i]);
-            }
-        }
-        return vectorFinal;
-    },
+    
     deleteOneVariableOfArray:function(place,array){
         var newArray=[];
         for(var i=0;i<array.length;i++)
@@ -375,7 +300,8 @@ module.exports = {
             else k++;
         }
        return newArray; 
-    }
+    },
+    
 };
 
 

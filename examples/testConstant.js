@@ -16,12 +16,12 @@ var equilibriumModel = {
             label:'CO3--',
             charge:-2,
             total:1,
-            atEquilibrium: 2.0
+          
         },
         {
             label:'NH3',
             charge:1,
-            total:2
+            total:2,
         },
         {
             label:'Ag+',
@@ -31,7 +31,8 @@ var equilibriumModel = {
         {
             label:'H+',
             charge:1,
-            total:-0.2
+            total:-0.2,
+            atEquilibrium: 0.0000001
         }
     ],
     components:[
@@ -53,7 +54,7 @@ var equilibriumModel = {
         {
             label:'OH-',
             species: [0, 0, 0, 0, -1],
-            Keq:14
+            Keq:0
         }
     ],
     precipitate: [
@@ -63,17 +64,46 @@ var equilibriumModel = {
             species: [0, 0, 0, 1, -1],
             Keq:7,
             atEquilibrium:0,
-            fixesEquilibriumQuantity: false
         }
+    ],
+    constant: [
     ]
 };
 const MonteCarlo = require('./../src/monteCarlo');
 const ConcentrationCalculation = require('../src/concentrationCalculation');
 const Model = require('../src/model');
-const Newton = require('../src/newton');
-const Solubility = require('./../src/solubilisation');
-const Matrix = require('../src/util/matrix');
-const Constant = require('../src/fixesEquilibirumQuantity');
+const newton = require('../src/newton');
+//const Solubility = require('./../src/solubilisation');
+const fixesEquilibrium = require('../src/fixesEquilibirumQuantity');
+const essaiMonteCarlo=100;
 
-var newEquilibrium = Constant.createNewEquilibriumModel(equilibriumModel);
-console.log(newEquilibrium);
+ConcentrationCalculation.moleToConcentrationModel(equilibriumModel);
+fixesEquilibrium.changeConstantComponentsHydroxy(equilibriumModel);
+fixesEquilibrium.createNewEquilibriumModel(equilibriumModel);
+var model = Model.createModel(equilibriumModel);
+var modelSolubility = Model.createModelPrecipitate(equilibriumModel);
+//Solubility.calculSolubility(equilibriumModel, modelSolubility);
+
+    for (var i = 0; i < essaiMonteCarlo; i++) {
+
+        MonteCarlo.logarithmic(equilibriumModel);
+        var j = 0;
+
+        do {
+            //Solubility.productOfSolubility(equilibriumModel);
+            //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
+            ConcentrationCalculation.concentrationCalculation(equilibriumModel, model);
+            var totalSpeciesConcentration = ConcentrationCalculation.calculateTotalConcentrationSpecies(equilibriumModel, model, modelSolubility);
+            var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
+            if (!hasConverged) {
+                var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(equilibriumModel);
+                newton(model, equilibriumModel, vectorComponentConcentration);
+                j = j + 1;
+            }
+        } while (j < 15 && hasConverged == false);
+        if (hasConverged) break;
+    }
+    console.log(equilibriumModel);
+    console.log(ConcentrationCalculation.getVectorLabelAndConcentration(equilibriumModel));
+    equilibriumModel.volume=equilibriumModel.volume+0.01;
+    equilibriumModel.constant=equilibriumModel.constant+0.01;

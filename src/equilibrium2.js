@@ -15,29 +15,29 @@ const essaiMonteCarlo = 1000000;
 
 module.exports = function (equilibriumModel) {
     equilibriumModel = deepcopy(equilibriumModel);
+    ConcentrationCalculation.moleToConcentrationModel(equilibriumModel);
     fixesEquilibrium.createNewEquilibriumModel(equilibriumModel);
     var model = Model.createModel(equilibriumModel);
     var modelSolubility = Model.createModelPrecipitate(equilibriumModel);
-    Solubility.calculSolubility(equilibriumModel, modelSolubility);
+    //Solubility.calculSolubility(equilibriumModel, modelSolubility);
     for (var i = 0; i < essaiMonteCarlo; i++) {
 
         MonteCarlo.logarithmic(equilibriumModel);
         var j = 0;
 
-        do {
-
+        do { 
+            //var productSolubility = Solubility.productOfSolubility(equilibriumModel);
+            //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
             ConcentrationCalculation.concentrationCalculation(equilibriumModel, model);
             var totalSpeciesConcentration = ConcentrationCalculation.calculateTotalConcentrationSpecies(equilibriumModel, model, modelSolubility);
             var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
             if (!hasConverged) {
                 var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(equilibriumModel);
                 newton(model, equilibriumModel, vectorComponentConcentration);
-                //var productSolubility = Solubility.productOfSolubility(equilibriumModel);
-                //Solubility.CalculPrecipitateFormation(equilibriumModel, modelSolubility);
                 j = j + 1;
             }
         } while (j < 15 && hasConverged == false);
         if (hasConverged) break;
     }
-    return equilibriumModel;
+    return ConcentrationCalculation.getVectorLabelAndConcentration(equilibriumModel);
 };

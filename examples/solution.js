@@ -58,10 +58,13 @@ var equilibriumModel = {
             species: [0, 0, 0, 1, -1],
             Keq: 7
         }
+    ],
+    constant: [
+    
     ]
 };
-
+const Equilibrium = require('../src/equilibrium2');
 
 var atEquilibrium = equilibrium(equilibriumModel);
+Equilibrium(equilibriumModel);
 console.log(equilibriumModel);
-console.log(atEquilibrium);

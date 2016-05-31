@@ -18,6 +18,9 @@ var Matrix6=[[1, 0, 0], [0, 2, 0], [0, 0, 3]];
 var Matrix7=[[1, 0], [1, 2]];
 var Matrix8=[[1, -1, 1], [2, 2, 3], [0, 3, 2]];
 var Matrix9=[[0, 9, 4], [4, 9, 10], [1, 16, 10]];
+var Matrix10=[[1, 0],[0, 1]];
+var Matrix11=[[1, 2, 0],[-1, 2, 3],[1, 3, 2],[-2, 3, 0],[1, 3, 2],[0, 2, 2]];
+var Matrix12=[[1, 2, 0, -2, 3, 0],[-1, 2, 3, 1, 3, 2],[1, 3, 2, 0, 2, 2]];
 var vector3=[-1,-3,0];
 var vector4=[2,10,9];
 var vector5=[-1,12,0];
@@ -27,7 +30,11 @@ var vector8=[3,4,6];
 var vector9=[3,7,6];
 var vector10=[2,4,6];
 var vector11=[1,2,3];
-var vector12=[15,1];
+var vector12=[6,12,18];
+var vector13=[-1, 0];
+var vector14=[1, 2, 3, 4 ,5 ,6];
+var vector15=[0 , 2, 3];
+var vector16=[2, 5, 6];
 
 describe('Matrix', function () {
     it('Substract vector', function () {
@@ -98,6 +105,10 @@ describe('Matrix', function () {
         test1.should.deepEqual(true);
         test2.should.deepEqual(false);
     });
+    it('Multiplication Matrix to Vector', function () {
+        var multi = Matrix.multiMatrixToVector(Matrix5, vector1, 3);
+        multi.should.deepEqual(vector12);
+    });   
     it('Multiplication Scalar to Vector', function () {
         var multi = Matrix.multiplyScalarVector(2,vector1);
         multi.should.deepEqual(vector10);
@@ -106,18 +117,32 @@ describe('Matrix', function () {
         var det = Matrix.detMatrix(Matrix1,3);
         det.should.deepEqual(5);
     });
-    it('Distance Vector', function () {
-        var distance = Matrix.distanceVectors(vector1,vector2);
-        distance.should.deepEqual(Math.sqrt(10));
-    });
     it('absolute Vector', function () {
         var abs = Matrix.absVector(vector6);
         abs.should.deepEqual(vector11);
     });
-    it('Max Coordonnee', function () {
-        var max = Matrix.coordonneeMax(vector7);
-        max.should.deepEqual(vector12);
+    it('creation Identity Matrix', function () {
+        var identity = Matrix.creationIdentityMatrix(2);
+        identity.should.deepEqual(Matrix10);
     });
+    it('paste two matrix', function(){
+        var paste = Matrix.pasteTwoMatrix(Matrix1,Matrix2);
+        paste.should.deepEqual(Matrix11);
+    });
+    it('paste two model', function(){
+        var paste = Matrix.pasteTwoModel(Matrix1,Matrix2);
+        paste.should.deepEqual(Matrix12);
+    });
+    it('delete one variable of an array', function(){
+        var arrayDelete = Matrix.deleteOneVariableOfArray(1,vector3);
+        arrayDelete.should.deepEqual(vector13);
+    });
+    it('delete collection of variables of an array', function(){
+        var arrayDelete = Matrix.deleteCollectionofVariableOfArray(vector15,vector14);
+        arrayDelete.should.deepEqual(vector16);
+    });
+    
+    
 }); 
 
 
