@@ -51,7 +51,6 @@ describe('newton', function () {
         var totalConcentration =Concentration.vectorConcentrationAllComponent(equilibriumModel);
         Newton(model,equilibriumModel,totalConcentration);
         var newSpeciesVector = Concentration.vectorSpeciesConcentration(equilibriumModel);
-        console.log(equilibriumModel);
         newSpeciesVector.should.deepEqual(speciesAfterAlgorithme);
     });
 });

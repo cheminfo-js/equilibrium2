@@ -241,7 +241,7 @@ module.exports = {
         }
         return newVector;
     },
-    
+
     creationIdentityMatrix: function (numberRow) {
         var Matrix = [];
         for (var i = 0; i < numberRow; i++) {
@@ -280,26 +280,24 @@ module.exports = {
         }
         return newMatrix;
     },
-    
-    deleteOneVariableOfArray:function(place,array){
-        var newArray=[];
-        for(var i=0;i<array.length;i++)
-        {
-            if(i!=place)newArray.push(array[i]);
+
+    deleteOneVariableOfArray: function (place, array) {
+        var newArray = [];
+        for (var i = 0; i < array.length; i++) {
+            if (i != place)newArray.push(array[i]);
         }
         return newArray;
     },
-    deleteCollectionofVariableOfArray:function(arrayDelete,array){
-        
+    deleteCollectionofVariableOfArray: function (arrayDelete, array) {
+
         var newArray = [];
-        var k=0;
-        
-        for(var i=0; i<array.length;i++)
-        {
-            if(i!=arrayDelete[k])newArray.push(array[i]);
+        var k = 0;
+
+        for (var i = 0; i < array.length; i++) {
+            if (i != arrayDelete[k])newArray.push(array[i]);
             else k++;
         }
-       return newArray; 
+        return newArray;
     },
     
 };

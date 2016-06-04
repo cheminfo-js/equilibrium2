@@ -25,9 +25,7 @@ module.exports = {
 
     },
 
-    calculateTotalConcentrationSpecies: function (equilibriumModel, Matrixmodel/*, modelSolubility*/) {
-        //var superModel = Matrix.pasteTwoModel(Matrixmodel, modelSolubility);
-
+    calculateTotalConcentrationSpecies: function (equilibriumModel, Matrixmodel) {
         var species = equilibriumModel.species;
         var components = equilibriumModel.components;
         var numberSpecies = equilibriumModel.species.length;
@@ -110,36 +108,32 @@ module.exports = {
             species[i].total = species[i].total / volume;
         }
     },
-    getVectorLabelAndConcentration: function(equilibriumModel){
+    getVectorLabelAndConcentration: function (equilibriumModel) {
         var species = equilibriumModel.species;
         var numberSpecies = species.length;
-        var components= equilibriumModel.components;
+        var components = equilibriumModel.components;
         var numberComponents = components.length;
         var precipitate = equilibriumModel.precipitate;
         var numberPrecipitate = precipitate.length;
         var constant = equilibriumModel.constant;
         var numberConstant = constant.length;
-        var vectorLabelsAndConcentrations=[];
-        
-        for(var i=0;i<numberSpecies;i++)
-        {
-            var vectorLabelConcentration= [species[i].label,species[i].atEquilibrium];
+        var vectorLabelsAndConcentrations = [];
+
+        for (var i = 0; i < numberSpecies; i++) {
+            var vectorLabelConcentration = [species[i].label, species[i].atEquilibrium];
             vectorLabelsAndConcentrations.push(vectorLabelConcentration);
         }
 
-        for(var i=0;i<numberComponents;i++)
-        {
-            var vectorLabelConcentration= [components[i].label,components[i].atEquilibrium];
+        for (var i = 0; i < numberComponents; i++) {
+            var vectorLabelConcentration = [components[i].label, components[i].atEquilibrium];
             vectorLabelsAndConcentrations.push(vectorLabelConcentration);
         }
-        for(var i=0;i<numberPrecipitate;i++)
-        {
-            var vectorLabelConcentration= [precipitate[i].label,precipitate[i].atEquilibrium];
+        for (var i = 0; i < numberPrecipitate; i++) {
+            var vectorLabelConcentration = [precipitate[i].label, precipitate[i].atEquilibrium];
             vectorLabelsAndConcentrations.push(vectorLabelConcentration);
         }
-        for(var i=0;i<numberConstant;i++)
-        {
-            var vectorLabelConcentration= [constant[i].label,constant[i].atEquilibrium];
+        for (var i = 0; i < numberConstant; i++) {
+            var vectorLabelConcentration = [constant[i].label, constant[i].atEquilibrium];
             vectorLabelsAndConcentrations.push(vectorLabelConcentration);
         }
         return vectorLabelsAndConcentrations;

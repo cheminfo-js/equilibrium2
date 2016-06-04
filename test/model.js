@@ -5,9 +5,7 @@
  * Created by loicstrauch on 27.05.16.
  */
 'use strict';
-
-const Matrix = require('../src/util/matrix');
-const Model= require('../src/model');
+const Model = require('../src/model');
 var equilibriumModel = {
     volume: 1,
     species: [
@@ -71,22 +69,22 @@ var equilibriumModel = {
             species: [0, 1, 0, 2, 0],
             Keq: 8
         }
-        
+
     ]
 };
 
-var matrixmodel=[[1,0,0,0,0,0,0,0,0],[0,1,0,0,0,1,1,0,0],[0,0,1,0,0,0,0,2,0],[0,0,0,1,0,0,0,1,0],[0,0,0,0,1,1,2,0,-1]];
-var matrixprecipitate=[[0,0],[0,1],[0,0],[1,2],[-1,0]];
+var matrixmodel = [[1, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 1, 1, 0, 0], [0, 0, 1, 0, 0, 0, 0, 2, 0], [0, 0, 0, 1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 1, 2, 0, -1]];
+var matrixprecipitate = [[0, 0], [0, 1], [0, 0], [1, 2], [-1, 0]];
 
 describe('model', function () {
     it('model creation', function () {
         var model = Model.createModel(equilibriumModel);
         model.should.deepEqual(matrixmodel);
     });
-    
+
     it('model precipitate', function () {
-            var modelPrecipitate = Model.createModelPrecipitate(equilibriumModel);
-            modelPrecipitate.should.deepEqual(matrixprecipitate);
+        var modelPrecipitate = Model.createModelPrecipitate(equilibriumModel);
+        modelPrecipitate.should.deepEqual(matrixprecipitate);
     });
-    
+
 });
