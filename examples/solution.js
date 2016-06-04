@@ -1,4 +1,4 @@
-var equilibrium = require('..');
+var Equilibrium = require('..');
 
 var equilibriumModel = {
     volume: 1,
@@ -63,8 +63,6 @@ var equilibriumModel = {
     
     ]
 };
-const Equilibrium = require('../src/equilibrium2');
 
-var atEquilibrium = equilibrium(equilibriumModel);
 Equilibrium(equilibriumModel);
 console.log(equilibriumModel);
