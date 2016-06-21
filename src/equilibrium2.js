@@ -36,6 +36,5 @@ module.exports = function (equilibriumModel) {
         } while (j < 15 && hasConverged == false);
         if (hasConverged) break;
     }
-    console.log(ConcentrationCalculation.getVectorLabelAndConcentration(equilibriumModel));
-    
+    return ConcentrationCalculation.getVectorLabelAndConcentration(equilibriumModel);
 };

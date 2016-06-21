@@ -2,6 +2,8 @@
  * Created by loicstrauch on 12.05.16.
  */
 'use strict';
+
+const eq = require('..');
 var nombre = 0;
 for(var p=0;p<1000;p++) {
 
@@ -44,36 +46,10 @@ for(var p=0;p<1000;p++) {
     nombre++;
     
     equilibriumModel.species[1].atEquilibrium= Math.pow(10,-ph);
-    const MonteCarlo = require('./../src/monteCarlo');
-    const ConcentrationCalculation = require('../src/concentrationCalculation');
-    const Model = require('../src/model');
-    const newton = require('../src/newton');
-    const fixesEquilibrium = require('../src/fixesEquilibirumQuantity');
-    const essaiMonteCarlo = 100;
-
-    ConcentrationCalculation.moleToConcentrationModel(equilibriumModel);
-    fixesEquilibrium.changeConstantComponentsHydroxy(equilibriumModel);
-    fixesEquilibrium.createNewEquilibriumModel(equilibriumModel);
-    var model = Model.createModel(equilibriumModel);
-    var modelSolubility = Model.createModelPrecipitate(equilibriumModel);
-
-    for (var i = 0; i < essaiMonteCarlo; i++) {
-        MonteCarlo.logarithmic(equilibriumModel);
-        var j = 0;
-
-        do {
-            ConcentrationCalculation.concentrationCalculation(equilibriumModel, model);
-            var totalSpeciesConcentration = ConcentrationCalculation.calculateTotalConcentrationSpecies(equilibriumModel, model, modelSolubility);
-            var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(equilibriumModel, totalSpeciesConcentration);
-            if (!hasConverged) {
-                var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(equilibriumModel);
-                newton(model, equilibriumModel, vectorComponentConcentration);
-                j++;
-            }
-        } while (j < 15 && hasConverged == false);
-        if (hasConverged) break;
-    }
-    console.log(ConcentrationCalculation.getVectorLabelAndConcentration(equilibriumModel)[4][1]);
+    
+    var result = eq(equilibriumModel);
+    var display= 4;
+    console.log(result[display][0], result[display][1]);
  
 
 }
