@@ -4,8 +4,7 @@
 'use strict';
 
 const eq = require('..');
-var nombre = 0;
-for(var p=0;p<1000;p++) {
+for(var ph=0;ph<=14;ph++) {
 
     var equilibriumModel = {
         volume: 1,
@@ -42,14 +41,14 @@ for(var p=0;p<1000;p++) {
         precipitate: [],
         constant: []
     };
-    var ph= nombre *14/1000;
-    nombre++;
     
     equilibriumModel.species[1].atEquilibrium= Math.pow(10,-ph);
+
+    console.log(equilibriumModel);
     
     var result = eq(equilibriumModel);
-    var display= 4;
-    console.log(result[display][0], result[display][1]);
+    var display= 0;
+    console.log(ph, result[display][0], result[display][1]);
  
 
 }
