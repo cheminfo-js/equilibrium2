@@ -101,11 +101,6 @@ class Equilibrium {
         }
         return this.getConcentrations();
     }
-    // Solve many times with different initialization conditions until
-    // the system converges
-    step() {
-
-    }
     
 
     getConcentrations() {
