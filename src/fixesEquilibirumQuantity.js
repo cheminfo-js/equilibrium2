@@ -3,6 +3,9 @@
  */
 'use strict';
 const Matrix = require('../src/util/matrix');
+const random = require('./util/random');
+
+
 module.exports = {
 
     createNewEquilibriumModel: function (equilibriumModel) {
@@ -14,7 +17,7 @@ module.exports = {
         var numberPrecipitate = precipitate.length;
         var speciesDeleted = [];
         for (var i = 0; i < numberSpecies; i++) {
-            if (species[i].atEquilibrium != undefined) {
+            if (species[i].atEquilibrium !== undefined) {
                 equilibriumModel.constant.push(equilibriumModel.species[i]);
                 for (var j = 0; j < numberComponents; j++) {
                     component[j].Keq = component[j].Keq - 0.4342944819 * Math.log(Math.pow(species[i].atEquilibrium, component[j].species[i]));
@@ -56,4 +59,52 @@ module.exports = {
         }
     },
 
+    setInitialConcentrations: function (equilibriumModel, concentrations) {
+        var keys = Object.keys(concentrations);
+        for (var i = 0; i < keys.length; i++) {
+            var entry = equilibriumModel.species.find(findByLabel(keys[i]));
+            if (entry) {
+                entry.atEquilibrium = concentrations[keys[i]];
+                continue;
+            }
+
+            entry = equilibriumModel.components.find(findByLabel(keys[i]));
+            if (entry) {
+                entry.atEquilibrium = concentrations[keys[i]];
+                continue;
+            }
+
+            entry = equilibriumModel.constant.findIndex(findByLabel(keys[i]));
+            if (entry) {
+                
+                entry.atEquilibrium = concentrations[keys[i]];
+                continue;
+            }
+
+            entry = equilibriumModel.precipitate.find(findByLabel(keys[i]));
+            if (entry) {
+                entry.atEquilibrium = concentrations[keys[i]];
+            }
+        }
+    },
+
+    initializeConcentrations: function (equilibriumModel, method) {
+        var species = equilibriumModel.species;
+        switch(method) {
+            case 'logarithmic':
+                for (var i = 0; i < species.length; i++) {
+                    species[i].current = Math.abs(species[i].total) * random.logarithmic();
+                }
+                break;
+            default:
+                throw new Error('initialization method does not exist');
+        }
+    }
+
 };
+
+function findByLabel(label) {
+    return function (entry) {
+        return entry.label === label;
+    }
+}

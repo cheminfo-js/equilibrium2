@@ -64,5 +64,6 @@ var equilibriumModel = {
     ]
 };
 
-Equilibrium(equilibriumModel);
-console.log(equilibriumModel);
+var eq = new Equilibrium(equilibriumModel);
+eq.setInitial('logarithmic');
+console.log(eq.solveRobust());

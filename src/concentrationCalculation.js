@@ -108,7 +108,7 @@ module.exports = {
             species[i].total = species[i].total / volume;
         }
     },
-    getVectorLabelAndConcentration: function (equilibriumModel) {
+    getEquilibriumConcentrations: function (equilibriumModel) {
         var species = equilibriumModel.species;
         var numberSpecies = species.length;
         var components = equilibriumModel.components;
@@ -117,26 +117,24 @@ module.exports = {
         var numberPrecipitate = precipitate.length;
         var constant = equilibriumModel.constant;
         var numberConstant = constant.length;
-        var vectorLabelsAndConcentrations = [];
+
+        var result = {};
 
         for (var i = 0; i < numberSpecies; i++) {
-            var vectorLabelConcentration = [species[i].label, species[i].atEquilibrium];
-            vectorLabelsAndConcentrations.push(vectorLabelConcentration);
+            result[species[i].label] = species[i].atEquilibrium;
+
         }
 
-        for (var i = 0; i < numberComponents; i++) {
-            var vectorLabelConcentration = [components[i].label, components[i].atEquilibrium];
-            vectorLabelsAndConcentrations.push(vectorLabelConcentration);
+        for (i = 0; i < numberComponents; i++) {
+            result[components[i].label] = components[i].atEquilibrium;
         }
-        for (var i = 0; i < numberPrecipitate; i++) {
-            var vectorLabelConcentration = [precipitate[i].label, precipitate[i].atEquilibrium];
-            vectorLabelsAndConcentrations.push(vectorLabelConcentration);
+        for (i = 0; i < numberPrecipitate; i++) {
+            result[precipitate[i].label] = precipitate[i].atEquilibrium;
         }
-        for (var i = 0; i < numberConstant; i++) {
-            var vectorLabelConcentration = [constant[i].label, constant[i].atEquilibrium];
-            vectorLabelsAndConcentrations.push(vectorLabelConcentration);
+        for (i = 0; i < numberConstant; i++) {
+            result[constant[i].label] = constant[i].atEquilibrium;
         }
-        return vectorLabelsAndConcentrations;
+        return result;
     }
 
 };
