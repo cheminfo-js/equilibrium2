@@ -56,10 +56,7 @@ class Equilibrium {
     }
 
     setInitial(initial) {
-        // console.log('before', this.inputModel, this.originalModel);
-
         this._init();
-        // console.log('after', this.inputModel);
         if(initial === 'logarithmic') {
             fixesEquilibrium.initializeConcentrations(this.inputModel, 'logarithmic');
         } else if(typeof initial === 'object') {
@@ -85,7 +82,6 @@ class Equilibrium {
         
 
         if(!hasConverged) throw new Error('System has not converged');
-        console.log('converged after', j, 'iterations');
         return this.getConcentrations();
     }
 
@@ -98,7 +94,6 @@ class Equilibrium {
                 success = true;
                 break;
             } catch(e) {
-                console.log(e);
             }
         }
         if(!success) {

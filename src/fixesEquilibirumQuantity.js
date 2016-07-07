@@ -88,8 +88,6 @@ module.exports = {
             }
 
             if(!entry) {
-                console.log(equilibriumModel.constant);
-                console.log(keys[i]);
                 throw new Error('Cannot set unexisting component');
             }
         }

@@ -36,9 +36,7 @@ var equilibriumModel = {
             species: [0, -1],
             Keq: 0
         }
-    ],
-    precipitate: [],
-    constant: []
+    ]
 };
 
 equilibriumModel.species[1].atEquilibrium = 1;

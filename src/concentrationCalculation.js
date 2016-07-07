@@ -98,7 +98,6 @@ module.exports = {
                 throw new Error('Relative error is Infinity');
             }
         }
-        console.log(relativeError);
         return differenceAccept;
     },
     moleToConcentrationModel: function (equilibriumModel) {

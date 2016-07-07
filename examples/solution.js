@@ -58,9 +58,6 @@ var equilibriumModel = {
             species: [0, 0, 0, 1, -1],
             Keq: 7
         }
-    ],
-    constant: [
-    
     ]
 };
 
