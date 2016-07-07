@@ -18,16 +18,18 @@ module.exports = {
         var speciesDeleted = [];
         for (var i = 0; i < numberSpecies; i++) {
             if (species[i].atEquilibrium !== undefined) {
+                species[i].current = species[i].atEquilibrium;
                 equilibriumModel.constant.push(equilibriumModel.species[i]);
                 for (var j = 0; j < numberComponents; j++) {
-                    component[j].Keq = component[j].Keq - 0.4342944819 * Math.log(Math.pow(species[i].atEquilibrium, component[j].species[i]));
+                    component[j].Keq = component[j].Keq - 0.4342944819 * Math.log(Math.pow(species[i].current, component[j].species[i]));
                     if (!component[j].constant)component[j].constant = [];
                     component[j].constant.push(component[j].species[i]);
                     component[j].species = Matrix.deleteOneVariableOfArray(i, component[j].species);
                     speciesDeleted.push(i);
                 }
                 for (var k = 0; k < numberPrecipitate; k++) {
-                    precipitate[k].Keq = precipitate[k].Keq - 0.4342944819 * Math.log(Math.pow(species[i].atEquilibrium, precipitate[k].species[i]));
+                    precipitate[k].Keq = precipitate[k].Keq - 0.4342944819 * Math.log(Math.pow(species[i].current, precipitate[k].species[i]));
+                    // precipitate[k].species.splice(i, 1);
                     precipitate[k].species = Matrix.deleteOneVariableOfArray(i, precipitate[k].species);
                 }
 
@@ -64,26 +66,31 @@ module.exports = {
         for (var i = 0; i < keys.length; i++) {
             var entry = equilibriumModel.species.find(findByLabel(keys[i]));
             if (entry) {
-                entry.atEquilibrium = concentrations[keys[i]];
+                entry.current = concentrations[keys[i]];
                 continue;
             }
 
             entry = equilibriumModel.components.find(findByLabel(keys[i]));
             if (entry) {
-                entry.atEquilibrium = concentrations[keys[i]];
+                entry.current = concentrations[keys[i]];
                 continue;
             }
 
-            entry = equilibriumModel.constant.findIndex(findByLabel(keys[i]));
+            entry = equilibriumModel.constant.find(findByLabel(keys[i]));
             if (entry) {
-                
-                entry.atEquilibrium = concentrations[keys[i]];
+                entry.current = concentrations[keys[i]];
                 continue;
             }
 
             entry = equilibriumModel.precipitate.find(findByLabel(keys[i]));
             if (entry) {
-                entry.atEquilibrium = concentrations[keys[i]];
+                entry.current = concentrations[keys[i]];
+            }
+
+            if(!entry) {
+                console.log(equilibriumModel.constant);
+                console.log(keys[i]);
+                throw new Error('Cannot set unexisting component');
             }
         }
     },

@@ -23,11 +23,23 @@ const defaultSolveOptions = {
 
 class Equilibrium {
     constructor(model) {
-        model = deepcopy(model);
-        Object.assign(model, defaultModel);
+        this.originalModel = model;
+    }
+
+    _init() {
+        var model = deepcopy(this.originalModel);
+        if(this.inputModel && this.inputModel.constant) {
+            for(var i=0; i<this.inputModel.constant.length; i++) {
+                var constant = this.inputModel.constant[i];
+                var specie = model.species.find(findByLabel(constant.label));
+                if(specie) specie.atEquilibrium = constant.current;
+            }
+        }
+        Object.assign(model, deepcopy(defaultModel));
 
         // Input sanity check
-        checkModel(model);
+        
+        checkModel( model);
 
         // From moles to concentration (using volume
         ConcentrationCalculation.moleToConcentrationModel(model);
@@ -40,37 +52,40 @@ class Equilibrium {
         // Create the solubility model (precipitation)
         this.solubilityModel = Model.createModelPrecipitate(model);
         this.inputModel = model;
+
     }
 
     setInitial(initial) {
+        // console.log('before', this.inputModel, this.originalModel);
+
+        this._init();
+        // console.log('after', this.inputModel);
         if(initial === 'logarithmic') {
             fixesEquilibrium.initializeConcentrations(this.inputModel, 'logarithmic');
         } else if(typeof initial === 'object') {
             fixesEquilibrium.setInitialConcentrations(this.inputModel, initial);
         }
+
     }
 
     // Solve the system once
     solve(options) {
-        fixesEquilibrium.createNewEquilibriumModel(this.inputModel);
-        this.model = Model.createModel(this.inputModel);
-        this.solubilityModel = Model.createModelPrecipitate(this.inputModel);
         options = Object.assign({}, options, defaultSolveOptions);
         checkCanSolve(this.inputModel, options);
             var j = 0;
             do {
                 // Sets the new atEquilibrium values
                 ConcentrationCalculation.concentrationCalculation(this.inputModel, this.model);
+                var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(this.inputModel);
+                newton(this.model, this.inputModel, vectorComponentConcentration);
+                j++;
                 var totalSpeciesConcentration = ConcentrationCalculation.calculateTotalConcentrationSpecies(this.inputModel, this.model, this.solubilityModel);
                 var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(this.inputModel, totalSpeciesConcentration);
-                if (!hasConverged) {
-                    var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(this.inputModel);
-                    newton(this.model, this.inputModel, vectorComponentConcentration);
-                    j++;
-                }
             } while (j < options.maxIterations && hasConverged == false);
+        
 
         if(!hasConverged) throw new Error('System has not converged');
+        console.log('converged after', j, 'iterations');
         return this.getConcentrations();
     }
 
@@ -83,6 +98,7 @@ class Equilibrium {
                 success = true;
                 break;
             } catch(e) {
+                console.log(e);
             }
         }
         if(!success) {
@@ -126,10 +142,16 @@ function checkCanSolve(model, options) {
 
 function checkHasConcentrations(arr) {
     for(var i=0; i<arr.length; i++) {
-        if(arr[i].atEquilibrium == undefined) {
+        if(arr[i].current == undefined) {
             throw new Error('The model was not correctly initialized');
         }
     }
 }
 
 module.exports = Equilibrium;
+
+function findByLabel(label) {
+    return function (entry) {
+        return entry.label === label;
+    }
+}

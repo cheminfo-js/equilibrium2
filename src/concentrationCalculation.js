@@ -19,8 +19,8 @@ module.exports = {
 
 
         for (var i = 0; i < numberComponent; i++) {
-            if (i < numberSpecies) species[i].atEquilibrium = ComponentConcentration[i];
-            else components[i - numberSpecies].atEquilibrium = ComponentConcentration[i] * Math.pow(10, -components[i - numberSpecies].Keq);
+            if (i < numberSpecies) species[i].current = ComponentConcentration[i];
+            else components[i - numberSpecies].current = ComponentConcentration[i] * Math.pow(10, -components[i - numberSpecies].Keq);
         }
 
     },
@@ -34,9 +34,9 @@ module.exports = {
         var numberPrecipitate = equilibriumModel.precipitate.length;
         var componentConcentration = [];
         for (var i = 0; i < numberComponent + numberPrecipitate; i++) {
-            if (i < numberSpecies)componentConcentration[i] = species[i].atEquilibrium;
-            else if (i < numberComponent)componentConcentration[i] = components[i - numberSpecies].atEquilibrium;
-            else componentConcentration[i] = precipitate[i - numberComponent].atEquilibrium;
+            if (i < numberSpecies)componentConcentration[i] = species[i].current;
+            else if (i < numberComponent)componentConcentration[i] = components[i - numberSpecies].current;
+            else componentConcentration[i] = precipitate[i - numberComponent].current;
         }
         var matrixComponentConcentration = Matrix.transposeMatrix(Matrix.rowToMatrix(componentConcentration, numberComponent, numberSpecies), numberSpecies, numberComponent);
         var matrixConcentrationTotal = Matrix.multiMatrix(Matrixmodel, matrixComponentConcentration, numberSpecies, numberComponent);
@@ -50,8 +50,8 @@ module.exports = {
         var vectorConcentration = [];
 
         for (var i = 0; i < numberComponent; i++) {
-            if (i < numberSpecies)vectorConcentration[i] = species[i].atEquilibrium;
-            else vectorConcentration[i] = components[i - numberSpecies].atEquilibrium;
+            if (i < numberSpecies)vectorConcentration[i] = species[i].current;
+            else vectorConcentration[i] = components[i - numberSpecies].current;
         }
 
         return vectorConcentration;
@@ -70,7 +70,7 @@ module.exports = {
         var vectorSpecies = [];
         var species = equilibriumModel.species;
         for (var i = 0; i < species.length; i++) {
-            vectorSpecies[i] = species[i].atEquilibrium;
+            vectorSpecies[i] = species[i].current;
         }
         return vectorSpecies;
     },
@@ -78,7 +78,7 @@ module.exports = {
     setConcentrationSpecies: function (vector, equilibriumModel) {
         var species = equilibriumModel.species;
         for (var i = 0; i < vector.length; i++) {
-            species[i].atEquilibrium = vector[i];
+            species[i].current = vector[i];
         }
     },
 
@@ -98,6 +98,7 @@ module.exports = {
                 throw new Error('Relative error is Infinity');
             }
         }
+        console.log(relativeError);
         return differenceAccept;
     },
     moleToConcentrationModel: function (equilibriumModel) {
@@ -121,18 +122,18 @@ module.exports = {
         var result = {};
 
         for (var i = 0; i < numberSpecies; i++) {
-            result[species[i].label] = species[i].atEquilibrium;
+            result[species[i].label] = species[i].current;
 
         }
 
         for (i = 0; i < numberComponents; i++) {
-            result[components[i].label] = components[i].atEquilibrium;
+            result[components[i].label] = components[i].current;
         }
         for (i = 0; i < numberPrecipitate; i++) {
-            result[precipitate[i].label] = precipitate[i].atEquilibrium;
+            result[precipitate[i].label] = precipitate[i].current;
         }
         for (i = 0; i < numberConstant; i++) {
-            result[constant[i].label] = constant[i].atEquilibrium;
+            result[constant[i].label] = constant[i].current;
         }
         return result;
     }

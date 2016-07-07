@@ -45,13 +45,14 @@ equilibriumModel.species[1].atEquilibrium = 1;
 
 var eq = new Equilibrium(equilibriumModel);
 var solution = eq.solveRobust();
+console.log('robust', solution);
 
-for(var ph=0;ph<=14;ph++) {
+for(var ph=0;ph<=14;ph += 1) {
     solution['H+'] = Math.pow(10,-ph);
     eq.setInitial(solution);
     solution = eq.solve();
 
     console.log(ph, solution);
- 
+
 
 }
