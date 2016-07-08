@@ -12,31 +12,31 @@ var equilibriumModel = {
             label: "Na+",
             charge: 1,
             total: 2.2,
-            atEquilibrium: 1
+            current: 1
         },
         {
             label: "CO3--",
             charge: -2,
             total: 1,
-            atEquilibrium: 1
+            current: 1
         },
         {
             label: "NH3",
             charge: 1,
             total: 2,
-            atEquilibrium: 1
+            current: 1
         },
         {
             label: "Ag+",
             charge: 1,
             total: 1,
-            atEquilibrium: 1
+            current: 1
         },
         {
             label: "H+",
             charge: 1,
             total: -0.2,
-            atEquilibrium: 1
+            current: 1
         }
     ],
     components: [

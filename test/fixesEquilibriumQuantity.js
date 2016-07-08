@@ -74,6 +74,7 @@ var equilibriumModel = {
             label: "CO3--",
             charge: -2,
             total: 1,
+            current: 1,
             atEquilibrium: 1
         }
     ]
@@ -90,7 +91,7 @@ var equilibriumModel2 = {
             label: "CO3--",
             charge: -2,
             total: 1,
-            atEquilibrium: 1
+            current: 1
         },
         {
             label: "NH3",
@@ -153,8 +154,6 @@ var equilibriumModel2 = {
 describe('fixes Equilibrium Quantity', function () {
     it('new model with constant', function () {
         Fixes.createNewEquilibriumModel(equilibriumModel2);
-        console.log(equilibriumModel2);
-        console.log(equilibriumModel);
         equilibriumModel2.should.deepEqual(equilibriumModel);
     });
     
