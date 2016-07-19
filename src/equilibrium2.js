@@ -28,18 +28,18 @@ class Equilibrium {
 
     _init() {
         var model = deepcopy(this.originalModel);
-        if(this.inputModel && this.inputModel.constant) {
-            for(var i=0; i<this.inputModel.constant.length; i++) {
+        if (this.inputModel && this.inputModel.constant) {
+            for (var i = 0; i < this.inputModel.constant.length; i++) {
                 var constant = this.inputModel.constant[i];
                 var specie = model.species.find(findByLabel(constant.label));
-                if(specie) specie.atEquilibrium = constant.current;
+                if (specie) specie.atEquilibrium = constant.current;
             }
         }
         Object.assign(model, deepcopy(defaultModel));
 
         // Input sanity check
-        
-        checkModel( model);
+
+        checkModel(model);
 
         // From moles to concentration (using volume
         ConcentrationCalculation.moleToConcentrationModel(model);
@@ -57,9 +57,9 @@ class Equilibrium {
 
     setInitial(initial) {
         this._init();
-        if(initial === 'logarithmic') {
+        if (initial === 'logarithmic') {
             fixesEquilibrium.initializeConcentrations(this.inputModel, 'logarithmic');
-        } else if(typeof initial === 'object') {
+        } else if (typeof initial === 'object') {
             fixesEquilibrium.setInitialConcentrations(this.inputModel, initial);
         }
 
@@ -69,39 +69,39 @@ class Equilibrium {
     solve(options) {
         options = Object.assign({}, options, defaultSolveOptions);
         checkCanSolve(this.inputModel, options);
-            var j = 0;
-            do {
-                // Sets the new atEquilibrium values
-                ConcentrationCalculation.concentrationCalculation(this.inputModel, this.model);
-                var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(this.inputModel);
-                newton(this.model, this.inputModel, vectorComponentConcentration);
-                j++;
-                var totalSpeciesConcentration = ConcentrationCalculation.calculateTotalConcentrationSpecies(this.inputModel, this.model, this.solubilityModel);
-                var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(this.inputModel, totalSpeciesConcentration);
-            } while (j < options.maxIterations && hasConverged == false);
-        
+        var j = 0;
+        do {
+            // Sets the new atEquilibrium values
+            ConcentrationCalculation.concentrationCalculation(this.inputModel, this.model);
+            var vectorComponentConcentration = ConcentrationCalculation.vectorConcentrationAllComponent(this.inputModel);
+            newton(this.model, this.inputModel, vectorComponentConcentration);
+            j++;
+            var totalSpeciesConcentration = ConcentrationCalculation.calculateTotalConcentrationSpecies(this.inputModel, this.model, this.solubilityModel);
+            var hasConverged = ConcentrationCalculation.compareRealAndCalcTotalConcentration(this.inputModel, totalSpeciesConcentration);
+        } while (j < options.maxIterations && hasConverged == false);
 
-        if(!hasConverged) throw new Error('System has not converged');
+
+        if (!hasConverged) throw new Error('System has not converged');
         return this.getConcentrations();
     }
 
     solveRobust(options) {
         var success = false;
-        for(var i=0; i < maxTries; i++) {
+        for (var i = 0; i < maxTries; i++) {
             this.setInitial('logarithmic');
             try {
                 this.solve();
                 success = true;
                 break;
-            } catch(e) {
+            } catch (e) {
             }
         }
-        if(!success) {
+        if (!success) {
             throw new Error('System never converges');
         }
         return this.getConcentrations();
     }
-    
+
 
     getConcentrations() {
         return ConcentrationCalculation.getEquilibriumConcentrations(this.inputModel);
@@ -120,8 +120,8 @@ function checkModel(model) {
 function checkLabels(arr, labels) {
     for (var i = 0; i < arr.length; i++) {
         var label = arr[i].label;
-        if(label == undefined) throw new Error('Labels must be defined');
-        if(labels[label]) throw new Error('Labels should be unique');
+        if (label == undefined) throw new Error('Labels must be defined');
+        if (labels[label]) throw new Error('Labels should be unique');
         labels[label] = true;
     }
 }
@@ -131,8 +131,8 @@ function checkCanSolve(model, options) {
 }
 
 function checkHasConcentrations(arr) {
-    for(var i=0; i<arr.length; i++) {
-        if(arr[i].current == undefined) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].current == undefined) {
             throw new Error('The model was not correctly initialized');
         }
     }

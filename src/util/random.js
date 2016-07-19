@@ -1,7 +1,5 @@
 'use strict';
 
-module.exports = {};
-
-module.exports.logarithmic = function () {
+exports.logarithmic = function () {
     return Math.pow(Math.random(), 10);
 };

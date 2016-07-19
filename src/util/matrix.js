@@ -87,15 +87,7 @@ module.exports = {
         return vector;
     },
     diagonalMatrix: function (vector) {
-        var matriceDiag = new matrice(vector.length, vector.length);
-        for (var i = 0; i < vector.length; i++) {
-            for (var j = 0; j < vector.length; j++) {
-                if (!matriceDiag[i])matriceDiag[i] = [];
-                if (i == j)matriceDiag.set(i, j, vector[i]);
-                else matriceDiag.set(i, j, 0);
-            }
-        }
-        return matriceDiag;
+        return matrice.diag(vector);
     },
     extractSubmatrix: function (matrice, dimension, deleteRow, deleteColomn) {
         var k = 0;
@@ -299,7 +291,7 @@ module.exports = {
         }
         return newArray;
     },
-    
+
 };
 
 

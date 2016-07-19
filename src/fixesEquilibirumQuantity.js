@@ -87,7 +87,7 @@ module.exports = {
                 entry.current = concentrations[keys[i]];
             }
 
-            if(!entry) {
+            if (!entry) {
                 throw new Error('Cannot set unexisting component');
             }
         }
@@ -95,7 +95,7 @@ module.exports = {
 
     initializeConcentrations: function (equilibriumModel, method) {
         var species = equilibriumModel.species;
-        switch(method) {
+        switch (method) {
             case 'logarithmic':
                 for (var i = 0; i < species.length; i++) {
                     species[i].current = Math.abs(species[i].total) * random.logarithmic();
